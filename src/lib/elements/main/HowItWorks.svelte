@@ -1,4 +1,5 @@
 <script>
+    import { base } from '$app/paths';
     import Container from '$lib/components/Container.svelte';
     import Spacer from '$lib/components/Spacer.svelte';
     import Title from '$lib/components/Title.svelte';
@@ -66,7 +67,7 @@
                     <Spacer axis="vertical" size="100%"/>
                     <Button 
                         title={card.button.title}
-                        href={card.button.href}
+                        href={base}{card.button.href}
                     />
                 </Container>
             </Container>
