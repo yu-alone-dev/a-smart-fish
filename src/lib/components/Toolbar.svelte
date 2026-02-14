@@ -11,6 +11,10 @@
     export let hoverColor = 'var(--color-texts-button)';
     export let sticky = true;
     export let transparentUntilScroll = true;
+
+    $: fullLogoSrc = imageSrc.startsWith('http') 
+        ? imageSrc 
+        : `${base}${imageSrc}`;;
     
     let searchQuery = '';
     let isMenuOpen = false;
@@ -66,9 +70,9 @@
     <div class="toolbar-container">
         <!-- Логотип слева -->
         <div class="logo">
-            {#if logoSrc}
+            {#if fullLogoSrc}
                 <a href="/">
-                    <img src={logoSrc} alt="Logo" class="logo-img rotating">
+                    <img src={fullLogoSrc} alt="Logo" class="logo-img rotating">
                 </a>
             {:else}
                 <a href="/" class="logo-text" style="color: var(--toolbar-color);">
