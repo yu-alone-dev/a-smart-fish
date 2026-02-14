@@ -66,7 +66,6 @@
                     <Spacer axis="vertical" size="100%"/>
                     <Button 
                         title={card.button.title}
-                        href={card.button.href}
                     />
                 </Container>
             </Container>
