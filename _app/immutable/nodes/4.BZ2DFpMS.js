@@ -1,0 +1,1 @@
+import{a,f as p}from"../chunks/CVqNSfLk.js";import"../chunks/Cx-KBBpF.js";import{F as m}from"../chunks/BVO2eTLc.js";import{C as e}from"../chunks/Bro2Ts7U.js";var n=p("<h1>Инструкция</h1> <p>Содержимое раздела Инструкция</p>",1);function h(o){e(o,{padding:"2rem",children:(r,s)=>{var t=n();m(2),a(r,t)},$$slots:{default:!0}})}export{h as component};
