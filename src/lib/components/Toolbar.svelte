@@ -12,9 +12,9 @@
     export let sticky = true;
     export let transparentUntilScroll = true;
 
-    $: fullLogoSrc = imageSrc.startsWith('http') 
-        ? imageSrc 
-        : `${base}${imageSrc}`;;
+    $: fullLogoSrc = logoSrc.startsWith('http') 
+        ? logoSrc 
+        : `${base}${logoSrc}`;;
     
     let searchQuery = '';
     let isMenuOpen = false;
