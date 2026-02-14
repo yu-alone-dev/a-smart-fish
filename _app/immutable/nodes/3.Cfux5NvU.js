@@ -1,0 +1,1 @@
+import{a,f as p}from"../chunks/mhB7wpT5.js";import"../chunks/DcL1RFh_.js";import{F as m}from"../chunks/DOqUra77.js";import{C as e}from"../chunks/MS98l4Zj.js";var n=p("<h1>О сайте</h1> <p>Содержимое раздела О сайте</p>",1);function h(o){e(o,{padding:"2rem",children:(r,s)=>{var t=n();m(2),a(r,t)},$$slots:{default:!0}})}export{h as component};
