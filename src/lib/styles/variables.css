@@ -1,0 +1,20 @@
+:root {
+    /* Цветовая схема */
+    --color-texts-title: #0b645a;
+    --color-texts-main: #134f5c;
+    --color-texts-main-light: #dfe3e4;
+    --color-texts-button: #c4d2ca;
+
+    --color-background-button: #2a4a46;
+    --color-background-footer: #2a4a46;
+  
+    /* Размеры шрифтов */
+    --font-size-title: 23.0pt;
+    --font-size-card-title: 16.0pt;
+    --font-size-card-description: 14.0pt;
+    --font-size-card-button: 12.0pt;
+
+    /* Шрифты */
+    --font-family-main: 'Roboto Serif', Arial;
+    --font-family-button: 'Open Sans', sans-serif;
+}
