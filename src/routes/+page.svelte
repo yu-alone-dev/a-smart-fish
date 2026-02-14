@@ -61,7 +61,8 @@
 
 <Toolbar 
     items={menuItems}
-    logoSrc="/favicon.png"
+    logoSrc="https://drive.google.com/uc?export=view&id=1hUMTbJdFGmKoLPJ4f0s3oIOyXhFTBHxQ"
+    
     backgroundColor="var(--color-background-button)"
     textColor="var(--color-texts-main-light)"
     transparentUntilScroll={true}
@@ -69,7 +70,7 @@
 
 <!-- Hero на весь экран -->
 <Hero 
-    imageSrc="/imgs/main/hero-bg.png"
+    imageSrc="https://drive.google.com/uc?export=view&id=1Hp-S7Bb7U97DMVwSfJg114qNyFOpoloV"
     title="Умные рыбки: Учим падежи!"
 />
 

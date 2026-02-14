@@ -18,7 +18,7 @@
                 title: 'Учим и Играем',
                 href: '/learn'
             },
-            img: 'learn.png'
+            img: '1dSlQp-4YKRGLqXH8zGZLTvv-69hyg2Fs'
         },
         {
             text: {
@@ -29,7 +29,7 @@
                 title: 'Материалы',
                 href: '/materials'
             },
-            img: 'materials.png'
+            img: '1J2wi-ry00oOVoNzTJKi6gFe9JLG_HTBG'
         },
         {
             text: {
@@ -40,7 +40,7 @@
                 title: 'Инструкция',
                 href: '/guide'
             },
-            img: 'guide.png'
+            img: '16gn-wuvQ_hwh5V-bcjlzlT9Fu7eXSJT2'
         }
     ];
 </script>

@@ -6,7 +6,7 @@
     export let loading = 'lazy';
 
     // Формируем полный путь к изображению
-    $: fullSrc = page ? `/imgs/${page}/${src}` : `/imgs/${src}`;
+    $: fullSrc = page ? `$https://drive.google.com/uc?export=view&id={page}/${src}` : `https://drive.google.com/uc?export=view&id=${src}`;
 </script>
 
 {#if href}
