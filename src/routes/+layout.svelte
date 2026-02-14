@@ -1,5 +1,5 @@
 <script>
-	import favicon from '/favicon.png';
+	import { base } from '$app/paths';
 	import '$lib/styles/variables.css';
 	import '$lib/styles/basic.css'
 
@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href="{base}/favicon.png" />
 </svelte:head>
 
 {@render children()}

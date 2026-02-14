@@ -1,12 +1,15 @@
 <script>
+    import { base } from '$app/paths';
+
     export let src = '';
     export let alt = '';
     export let href = '';
     export let page = '';
     export let loading = 'lazy';
 
-    // Формируем полный путь к изображению
-    $: fullSrc = page ? `/imgs/${page}/${src}` : `/imgs/${src}`;
+    $: fullSrc = page 
+    ? `${base}/imgs/${page}/${src}` 
+    : `${base}/imgs/${src}`;
 </script>
 
 {#if href}

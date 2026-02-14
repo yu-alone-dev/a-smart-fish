@@ -1,4 +1,5 @@
 <script>
+    import { base } from '$app/paths';
     export let imageSrc = '';
     export let title = '';
     export let subtitle = '';
@@ -14,8 +15,9 @@
         });
     }
     
-    // Формируем полный путь к изображению
-    $: fullSrc = imageSrc.startsWith('/') ? imageSrc : `/src/lib/assets/imgs/${imageSrc}`;
+    $: fullSrc = imageSrc.startsWith('http') 
+        ? imageSrc 
+        : `${base}${imageSrc}`;;
 </script>
 
 <section 
