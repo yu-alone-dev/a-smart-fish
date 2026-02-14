@@ -3,5 +3,15 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	base: 'a-smart-fish',
-	plugins: [sveltekit()]
+	plugins: [
+		sveltekit(),
+		viteStaticCopy({
+		targets: [
+			{
+			src: 'static/*',
+			dest: '.'
+			}
+		]
+		})
+	]
 });
