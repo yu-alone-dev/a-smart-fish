@@ -1,5 +1,5 @@
 <script>
-    import Toolbar from '$lib/components/Toolbar.svelte';
+    import Toolbar from '../lib/components/Toolbar.svelte';
     import Hero from '$lib/components/Hero.svelte';
     import HowItWorks from '$lib/elements/main/HowItWorks.svelte';
     import Footer from '$lib/elements/Footer.svelte';
@@ -61,7 +61,7 @@
 
 <Toolbar 
     items={menuItems}
-    logoSrc="/src/lib/assets/favicon.png"
+    logoSrc="/favicon.png"
     backgroundColor="var(--color-background-button)"
     textColor="var(--color-texts-main-light)"
     transparentUntilScroll={true}
@@ -69,7 +69,7 @@
 
 <!-- Hero на весь экран -->
 <Hero 
-    imageSrc="/src/lib/assets/imgs/main/hero-bg.png"
+    imageSrc="/imgs/main/hero-bg.png"
     title="Умные рыбки: Учим падежи!"
 />
 

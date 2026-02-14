@@ -147,7 +147,7 @@
                 on:click={toggleSearch}
                 style="color: var(--toolbar-color);"
             >
-                <img src="/src/lib/assets/icons/search.svg" alt="Поиск" width="20" height="20">
+                <img src="/icons/search.svg" alt="Поиск" width="20" height="20">
             </button>
             
             <button 
@@ -191,7 +191,7 @@
                     class="search-button"
                     style="color: var(--toolbar-color);"
                 >
-                    <img src="/src/lib/assets/icons/search.svg" alt="Поиск" width="20" height="20">
+                    <img src="/icons/search.svg" alt="Поиск" width="20" height="20">
                 </button>
             </form>
         </div>

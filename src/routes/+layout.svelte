@@ -1,5 +1,5 @@
 <script>
-	import favicon from '$lib/assets/favicon.png';
+	import favicon from '/favicon.png';
 	import '$lib/styles/variables.css';
 	import '$lib/styles/basic.css'
 

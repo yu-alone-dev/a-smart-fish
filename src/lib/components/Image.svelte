@@ -6,7 +6,7 @@
     export let loading = 'lazy';
 
     // Формируем полный путь к изображению
-    $: fullSrc = page ? `/src/lib/assets/imgs/${page}/${src}` : `/src/lib/assets/imgs/${src}`;
+    $: fullSrc = page ? `/imgs/${page}/${src}` : `/imgs/${src}`;
 </script>
 
 {#if href}
