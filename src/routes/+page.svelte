@@ -61,7 +61,7 @@
 
 <Toolbar 
     items={menuItems}
-    logoSrc="/favicon.png"
+    logoSrc="/icons/favicon.png"
     backgroundColor="var(--color-background-button)"
     textColor="var(--color-texts-main-light)"
     transparentUntilScroll={true}
