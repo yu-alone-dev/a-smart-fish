@@ -1,5 +1,5 @@
 <script>
-	import favicon from 'https://drive.google.com/uc?export=view&id=1hUMTbJdFGmKoLPJ4f0s3oIOyXhFTBHxQ';
+	import favicon from '/favicon.png';
 	import '$lib/styles/variables.css';
 	import '$lib/styles/basic.css'
 

@@ -1,5 +1,5 @@
 <script>
-    import Toolbar from '../lib/components/Toolbar.svelte';
+    import Toolbar from '$lib/components/Toolbar.svelte';
     import Hero from '$lib/components/Hero.svelte';
     import HowItWorks from '$lib/elements/main/HowItWorks.svelte';
     import Footer from '$lib/elements/Footer.svelte';
@@ -59,18 +59,18 @@
     ];
 </script>
 
+<!-- Toolbar с логотипом с Google Drive -->
 <Toolbar 
     items={menuItems}
-    logoSrc="https://drive.google.com/uc?export=view&id=1hUMTbJdFGmKoLPJ4f0s3oIOyXhFTBHxQ"
-    
+    logoSrc="https://corsproxy.io/?https://drive.google.com/uc?export=view&id=1hUMTbJdFGmKoLPJ4f0s3oIOyXhFTBHxQ"
     backgroundColor="var(--color-background-button)"
     textColor="var(--color-texts-main-light)"
     transparentUntilScroll={true}
 />
 
-<!-- Hero на весь экран -->
+<!-- Hero на весь экран с изображением с Google Drive -->
 <Hero 
-    imageSrc="https://drive.google.com/uc?export=view&id=1Hp-S7Bb7U97DMVwSfJg114qNyFOpoloV"
+    imageSrc="https://corsproxy.io/?https://drive.google.com/uc?export=view&id=1Hp-S7Bb7U97DMVwSfJg114qNyFOpoloV"
     title="Умные рыбки: Учим падежи!"
 />
 

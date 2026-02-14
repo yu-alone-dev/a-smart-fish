@@ -14,13 +14,13 @@
         });
     }
     
-    // Формируем полный путь к изображению
-    $: fullSrc = imageSrc.startsWith('/') ? imageSrc : `/src/lib/assets/imgs/${imageSrc}`;
+    // Определяем, является ли URL внешним
+    $: isExternalUrl = imageSrc.startsWith('http');
 </script>
 
 <section 
     class="hero" 
-    style="background-image: url('{fullSrc}');"
+    style="background-image: url('{imageSrc}');"
 >
     <div 
         class="hero-overlay"

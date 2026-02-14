@@ -66,9 +66,17 @@
         <!-- Логотип слева -->
         <div class="logo">
             {#if logoSrc}
-                <a href="/">
-                    <img src={logoSrc} alt="Logo" class="logo-img rotating">
-                </a>
+                {#if logoSrc.startsWith('http')}
+                    <!-- Внешний URL (Google Drive) -->
+                    <a href="/">
+                        <img src={logoSrc} alt="Logo" class="logo-img rotating">
+                    </a>
+                {:else}
+                    <!-- Локальный файл -->
+                    <a href="/">
+                        <img src={logoSrc} alt="Logo" class="logo-img rotating">
+                    </a>
+                {/if}
             {:else}
                 <a href="/" class="logo-text" style="color: var(--toolbar-color);">
                     Логотип
@@ -147,9 +155,8 @@
                 on:click={toggleSearch}
                 style="color: var(--toolbar-color);"
             >
-                <img src="/icons/search.svg" alt="Поиск" width="20" height="20">
+                <img src="https://corsproxy.io/?https://drive.google.com/uc?export=view&id=$1b-DAkjPdtXr4aZkInc0XOKUo_ceRM6A-" alt="Поиск" width="20" height="20">
             </button>
-            
             <button 
                 class="menu-toggle mobile-only" 
                 on:click={toggleMenu}
@@ -191,7 +198,7 @@
                     class="search-button"
                     style="color: var(--toolbar-color);"
                 >
-                    <img src="/icons/search.svg" alt="Поиск" width="20" height="20">
+                    <img src="https://corsproxy.io/?https://drive.google.com/uc?export=view&id=$1b-DAkjPdtXr4aZkInc0XOKUo_ceRM6A-" alt="Поиск" width="20" height="20">
                 </button>
             </form>
         </div>
