@@ -15,7 +15,7 @@
 
 <!-- Hero на весь экран -->
 <Hero 
-    imageSrc="/imgs/main/hero-bg.png"
+    imageSrc="/imgs/hero-bg.png"
     title="Умные рыбки: Учим падежи!"
 />
 

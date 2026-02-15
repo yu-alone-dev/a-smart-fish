@@ -44,7 +44,7 @@
                     <Spacer axis="vertical" line={true} size="2rem" thickness="3px"/>
                 {/if}
                     <Container orientation="vertical">
-                        <Image page='learn' src={card.img}/>
+                        <Image page='learn_and_train' src={card.img}/>
                         <Container orientation="horizontal" content="center">
                             <Button 
                                 title={card.button1.title}

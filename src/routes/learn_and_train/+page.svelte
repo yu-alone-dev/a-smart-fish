@@ -1,7 +1,7 @@
 <script>
     import Toolbar from '$lib/components/Toolbar.svelte';
     import Hero from '$lib/components/Hero.svelte';
-    import Learn from '$lib/elements/learn/Learn.svelte';
+    import LearnAndTrain from '$lib/elements/learn_and_train/LearnAndTrain.svelte';
     import Footer from '$lib/elements/Footer.svelte';
     import Spacer from '$lib/components/Spacer.svelte';
 </script>
@@ -15,14 +15,14 @@
 
 <!-- Hero на весь экран -->
 <Hero 
-    imageSrc="/imgs/main/hero-bg.png"
+    imageSrc="/imgs/hero-bg.png"
     title="Учим и Играем"
 />
 
 <!-- Остальной контент -->
 <main>
     <Spacer axis="vertical" size="3rem"/>
-    <Learn/>
+    <LearnAndTrain/>
     <Spacer axis="vertical" size="3rem"/>
     <Footer/>
 </main>

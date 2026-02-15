@@ -1,8 +1,10 @@
 <script>
     import { base } from '$app/paths';
-    import DropdownMenu from './DropdownMenu.svelte';
-    import MobileMenu from './MobileMenu.svelte';
     import { onMount } from 'svelte';
+    import DesktopMenu from './toolbar/desktop/DesktopMenu.svelte';
+    import MobileMenu from './toolbar/mobile/MobileMenu.svelte';
+    import Logo from './toolbar/shared/Logo.svelte';
+    import SearchForm from './toolbar/shared/SearchForm.svelte';
     
     export let items = [
         { 
@@ -11,7 +13,8 @@
             icon: '' 
         },
         { 
-            title: 'Учим и Играем', 
+            title: 'Учим и Играем',
+            href: '/learn_and_train', 
             icon: '',
             dropdown: [
                 { 
@@ -56,23 +59,17 @@
             icon: '' 
         }
     ];
-    
-    export let logoSrc = ''; // путь к логотипу
+    export let logoSrc = '';
     export let backgroundColor = 'var(--color-background-button)';
     export let textColor = 'var(--color-texts-main-light)';
     export let hoverColor = 'var(--color-texts-button)';
     export let sticky = true;
     export let transparentUntilScroll = true;
-
-    $: fullLogoSrc = logoSrc.startsWith('http') 
-        ? logoSrc 
-        : `${base}${logoSrc}`;;
     
-    let searchQuery = '';
     let isMenuOpen = false;
     let isSearchOpen = false;
-    let openDropdown = null;
     let isScrolled = false;
+    let searchQuery = '';
     
     onMount(() => {
         const handleScroll = () => {
@@ -83,13 +80,6 @@
         return () => window.removeEventListener('scroll', handleScroll);
     });
     
-    function handleSearch(e) {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
-        }
-    }
-    
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
     }
@@ -98,13 +88,26 @@
         isSearchOpen = !isSearchOpen;
         if (isSearchOpen) {
             setTimeout(() => {
-                document.getElementById('search-input')?.focus();
+                document.getElementById('search-input-desktop')?.focus();
             }, 100);
         }
     }
     
-    function toggleDropdown(index) {
-        openDropdown = openDropdown === index ? null : index;
+    function handleSearch(e) {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            window.location.href = `${base}/search?q=${encodeURIComponent(searchQuery)}`;
+            closeMenu();
+            isSearchOpen = false; // закрываем поиск после отправки
+        }
+    }
+    
+    function closeMenu() {
+        isMenuOpen = false;
+    }
+    
+    function updateSearchQuery(value) {
+        searchQuery = value;
     }
 </script>
 
@@ -120,97 +123,42 @@
     "
 >
     <div class="toolbar-container">
-        <!-- Логотип слева -->
-        <div class="logo">
-            {#if fullLogoSrc}
-                <a href="/">
-                    <img src={fullLogoSrc} alt="Logo" class="logo-img rotating">
-                </a>
-            {:else}
-                <a href="/" class="logo-text" style="color: var(--toolbar-color);">
-                    Логотип
-                </a>
-            {/if}
-        </div>
+        <Logo {logoSrc} {base} color={textColor} />
 
-        <!-- Десктопное меню с поддержкой вложенности -->
+        <!-- Десктопное меню - видно только на больших экранах -->
         <div class="desktop-menu">
-            {#each items as item, index}
-                <div class="menu-item-wrapper">
-                    {#if item.dropdown && item.dropdown.length}
-                        <!-- Элемент с выпадающим меню -->
-                        <button 
-                            class="menu-trigger"
-                            style="color: var(--toolbar-color);"
-                            on:click={() => toggleDropdown(index)}
-                            on:mouseenter={() => openDropdown = index}
-                            on:mouseleave={() => openDropdown = null}
-                        >
-                            {#if item.icon}<span class="menu-icon">{item.icon}</span>{/if}
-                            <span class="menu-title">{item.title}</span>
-                            <span class="menu-arrow">▼</span>
-                        </button>
-                        
-                        {#if openDropdown === index}
-                            <div 
-                                class="dropdown-menu"
-                                on:mouseenter={() => openDropdown = index}
-                                on:mouseleave={() => openDropdown = null}
-                                style="background-color: var(--toolbar-bg);"
-                            >
-                                <DropdownMenu 
-                                    items={item.dropdown} 
-                                    level={1}
-                                    textColor={textColor}
-                                    backgroundColor={backgroundColor}
-                                />
-                            </div>
-                        {/if}
-                    {:else}
-                        <!-- Обычная ссылка -->
-                        <a 
-                            href={item.href}
-                            class="menu-link"
-                            style="color: var(--toolbar-color);"
-                        >
-                            {#if item.icon}<span class="menu-icon">{item.icon}</span>{/if}
-                            <span class="menu-title">{item.title}</span>
-                        </a>
-                    {/if}
-                </div>
-            {/each}
+            <DesktopMenu {items} {textColor} {backgroundColor} />
         </div>
 
-        <!-- Поиск и кнопки справа -->
         <div class="right-section">
+            <!-- Поисковая форма - видна и на десктопе, и на мобильных -->
             {#if isSearchOpen}
-                <form class="search-form" on:submit={handleSearch}>
-                    <input 
-                        id="search-input"
-                        type="text" 
-                        class="search-input"
-                        placeholder="Поиск..."
-                        bind:value={searchQuery}
-                        style="
-                            background-color: rgba(255,255,255,0.1);
-                            color: var(--toolbar-color);
-                            border-color: var(--toolbar-color);
-                        "
-                    >
-                </form>
+                <div class="search-wrapper">
+                    <SearchForm 
+                        query={searchQuery}
+                        on:query={updateSearchQuery}
+                        onSubmit={handleSearch}
+                        {textColor}
+                        variant="desktop"
+                        inputId="search-input-desktop"
+                    />
+                </div>
             {/if}
+            
             <button 
                 class="search-toggle"
                 on:click={toggleSearch}
                 style="color: var(--toolbar-color);"
+                aria-label="Поиск"
             >
-                <img src="{base}/icons/search.svg" alt="Поиск" width="20" height="20">
+                <img src="{base}/icons/search.svg" alt="" width="20" height="20">
             </button>
             
             <button 
-                class="menu-toggle mobile-only" 
+                class="menu-toggle" 
                 on:click={toggleMenu}
                 style="color: var(--toolbar-color);"
+                aria-label="Меню"
             >
                 <span class="hamburger"></span>
                 <span class="hamburger"></span>
@@ -219,38 +167,16 @@
         </div>
     </div>
 
-    <!-- Мобильное меню с поддержкой вложенности -->
+    <!-- Мобильное меню - появляется при клике на гамбургер -->
     {#if isMenuOpen}
         <div class="mobile-menu" style="background-color: var(--toolbar-bg);">
             <MobileMenu 
-                items={items} 
+                {items}
                 level={0}
-                textColor={textColor}
-                backgroundColor={backgroundColor}
-                onClose={() => isMenuOpen = false}
+                {textColor}
+                {backgroundColor}
+                onClose={closeMenu}
             />
-            
-            <!-- Поиск в мобильном меню -->
-            <form class="search-form mobile" on:submit={handleSearch}>
-                <input 
-                    type="text" 
-                    class="search-input"
-                    placeholder="Поиск..."
-                    bind:value={searchQuery}
-                    style="
-                        background-color: rgba(255,255,255,0.1);
-                        color: var(--toolbar-color);
-                        border-color: var(--toolbar-color);
-                    "
-                >
-                <button 
-                    type="submit" 
-                    class="search-button"
-                    style="color: var(--toolbar-color);"
-                >
-                    <img src="{base}/icons/search.svg" alt="Поиск" width="20" height="20">
-                </button>
-            </form>
         </div>
     {/if}
 </nav>
@@ -289,103 +215,12 @@
         box-sizing: border-box;
     }
 
-    /* Логотип */
-    .logo {
-        flex-shrink: 0;
-    }
-
-    .logo-img {
-        height: 40px;
-        width: auto;
-    }
-
-    .rotating {
-        animation: spin-counterclockwise 10s linear infinite;
-    }
-
-    @keyframes spin-counterclockwise {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(-360deg); }
-    }
-
-    .logo-text {
-        font-family: var(--font-family-main);
-        font-size: 1.5rem;
-        font-weight: 700;
-        text-decoration: none;
-        letter-spacing: 1px;
-    }
-
-    /* Десктопное меню */
+    /* Десктопное меню - видно только на больших экранах */
     .desktop-menu {
         display: flex;
-        gap: 1rem;
         align-items: center;
-        margin-left: auto; /* Сдвигает меню вправо */
+        margin-left: auto;
         margin-right: 1rem;
-    }
-    
-    .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        right: 0; /* Выпадающее меню выравнивается по правому краю родителя */
-        min-width: 220px;
-        background: inherit;
-        border-radius: 4px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        padding: 0.5rem 0;
-        z-index: 1001;
-    }
-    
-    /* Для последних элементов, чтобы меню не уходило за экран */
-    .menu-item-wrapper:last-child .dropdown-menu {
-        right: 0;
-        left: auto;
-    }
-
-    .menu-item-wrapper {
-        position: relative;
-    }
-
-    .menu-trigger, .menu-link {
-        font-family: var(--font-family-main);
-        font-size: 1rem;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-        padding: 0.5rem 0.75rem;
-        transition: opacity 0.2s;
-        white-space: nowrap;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .menu-trigger:hover, .menu-link:hover {
-        opacity: 0.8;
-        color: var(--toolbar-hover);
-    }
-
-    .menu-icon {
-        font-size: 1.2rem;
-    }
-
-    .menu-arrow {
-        font-size: 0.8rem;
-        margin-left: 0.2rem;
-    }
-
-    .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        min-width: 220px;
-        background: inherit;
-        border-radius: 4px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        padding: 0.5rem 0;
-        z-index: 1001;
     }
 
     /* Правая секция */
@@ -394,6 +229,11 @@
         align-items: center;
         gap: 0.5rem;
         flex-shrink: 0;
+    }
+
+    .search-wrapper {
+        display: flex;
+        align-items: center;
     }
 
     .search-toggle {
@@ -409,40 +249,14 @@
         filter: brightness(0) invert(1);
         width: 20px;
         height: 20px;
+        transition: filter 0.3s;
     }
 
     .toolbar.scrolled .search-toggle img {
         filter: none;
     }
 
-    .search-form {
-        display: flex;
-        align-items: center;
-    }
-
-    .search-input {
-        padding: 0.5rem 1rem;
-        border: 1px solid;
-        border-radius: 20px;
-        font-family: var(--font-family-main);
-        font-size: 0.9rem;
-        outline: none;
-        transition: all 0.2s;
-        width: 200px;
-        background-color: rgba(255,255,255,0.1);
-    }
-
-    .search-input:focus {
-        border-width: 2px;
-        background-color: rgba(255,255,255,0.15);
-    }
-
-    .search-input::placeholder {
-        color: inherit;
-        opacity: 0.7;
-    }
-
-    /* Мобильное меню */
+    /* Кнопка гамбургер - скрыта на десктопе */
     .menu-toggle {
         display: none;
         flex-direction: column;
@@ -460,6 +274,7 @@
         transition: 0.3s;
     }
 
+    /* Мобильное меню */
     .mobile-menu {
         display: none;
         padding: 1rem;
@@ -474,41 +289,14 @@
         overflow-y: auto;
     }
 
-    .search-form.mobile {
-        margin-top: 1rem;
-        width: 100%;
-    }
-
-    .search-form.mobile .search-input {
-        width: 100%;
-    }
-
-    .search-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0.5rem;
-        margin-left: 0.5rem;
-    }
-
-    .search-button img {
-        filter: brightness(0) invert(1);
-        width: 20px;
-        height: 20px;
-    }
-
-    .toolbar.scrolled .search-button img {
-        filter: none;
-    }
-
-    /* Адаптивность */
+    /* Мобильные стили */
     @media (max-width: 768px) {
         .desktop-menu {
-            display: none;
+            display: none !important;
         }
 
         .menu-toggle {
-            display: flex;
+            display: flex !important;
         }
 
         .mobile-menu {
@@ -518,10 +306,28 @@
         .right-section {
             margin-left: auto;
         }
+        
+        /* На мобильных устройствах поиск занимает меньше места */
+        .search-wrapper {
+            max-width: 150px;
+        }
+        
+        .search-wrapper .search-input {
+            width: 100%;
+        }
     }
 
+    /* Десктопные стили */
     @media (min-width: 769px) {
-        .mobile-only {
+        .desktop-menu {
+            display: flex !important;
+        }
+
+        .menu-toggle {
+            display: none !important;
+        }
+
+        .mobile-menu {
             display: none !important;
         }
     }

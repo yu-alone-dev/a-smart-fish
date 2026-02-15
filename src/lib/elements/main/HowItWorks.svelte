@@ -17,9 +17,9 @@
             },
             button: {
                 title: 'Учим и Играем',
-                href: '/learn'
+                href: '/learn_and_train'
             },
-            img: 'learn.png'
+            img: 'learn_and_train.png'
         },
         {
             text: {
