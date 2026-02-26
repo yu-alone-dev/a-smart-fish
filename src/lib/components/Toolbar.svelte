@@ -19,6 +19,7 @@
             dropdown: [
                 { 
                     title: 'Предлоги', 
+                    href: '/learn_and_train/learn/prewords',
                     icon: '',
                     dropdown: [
                         { title: 'Тренажер', href: '/learn/prepositions/trainer', icon: '' }

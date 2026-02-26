@@ -2,7 +2,7 @@
     import Toolbar from '$lib/components/Toolbar.svelte';
     import Hero from '$lib/components/Hero.svelte';
     import HowItWorks from '$lib/elements/main/HowItWorks.svelte';
-    import Footer from '$lib/elements/Footer.svelte';
+    import Footer from '$lib/components/Footer.svelte';
     import Spacer from '$lib/components/Spacer.svelte';
 </script>
 

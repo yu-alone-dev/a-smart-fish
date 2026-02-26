@@ -11,22 +11,22 @@
         {
             button1: {
                 title: 'Учим предлоги',
-                href: '/learn'
+                href: '/learn_and_train/learn/prewords'
             },
             button2: {
                 title: 'Тренажер',
-                href: '/learn'
+                href: '/train_prewords'
             },
             img: 'prewords.png'
         },
         {
             button1: {
                 title: 'Учим падежи',
-                href: '/learn'
+                href: '/learn_cases'
             },
             button2: {
                 title: 'Тренажер',
-                href: '/learn'
+                href: '/train_cases'
             },
             img: 'case.png'
         }

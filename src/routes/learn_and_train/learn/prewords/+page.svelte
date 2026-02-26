@@ -1,7 +1,7 @@
 <script>
     import Toolbar from '$lib/components/Toolbar.svelte';
     import Hero from '$lib/components/Hero.svelte';
-    import About from '$lib/elements/about/About.svelte';
+    import Prewords from '$lib/elements/learn_and_train/learn/Prewords.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import Spacer from '$lib/components/Spacer.svelte';
 </script>
@@ -16,13 +16,13 @@
 <!-- Hero на весь экран -->
 <Hero 
     imageSrc="/imgs/hero-bg.png"
-    title="О сайте"
+    title="Предлоги"
 />
 
 <!-- Остальной контент -->
 <main>
     <Spacer axis="vertical" size="3rem"/>
-    <About/>
+    <Prewords/>
     <Spacer axis="vertical" size="3rem"/>
     <Footer/>
 </main>

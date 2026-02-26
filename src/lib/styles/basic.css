@@ -12,3 +12,11 @@
     width: 100%;
 }
 
+.left {
+    text-align: left;
+    display: flex;
+    justify-content: start;
+    align-items: start; 
+    width: 100%;
+}
+
