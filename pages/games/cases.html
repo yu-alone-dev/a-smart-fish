@@ -1,0 +1,2864 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!-- ========== CSS ФАЙЛЫ ========== --> 
+<style> 
+ 
+/*--------------------------------------------------*/
+/* Стили для масштабирования контейнера */
+/*--------------------------------------------------*/
+.game-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    transform-origin: center top;
+    transition: transform 0.3s ease;
+}
+
+.scale-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--color-label-bg);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.scale-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    margin: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background: var(--color-primary);
+    color: white;
+}
+
+.scale-value {
+    margin: 0 10px;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* Базовые стили страницы */
+/*--------------------------------------------------*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    background-color: var(--color-background);
+    height: 1px;
+}
+
+.game-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/*--------------------------------------------------*/
+
+/*--------------------------------------------------*/
+/* Стили заголовков */
+/*--------------------------------------------------*/
+.title {
+    background-color: var(--color-title-bg);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 10px 0;
+    text-align: center;
+}
+
+h2 {
+    color: var(--color-text);
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+}
+/*--------------------------------------------------*/
+
+/*--------------------------------------------------*/
+/* Стили выравнивания и видимости */
+/*--------------------------------------------------*/
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.element {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/*--------------------------------------------------*/
+/* Стили текстовых блоков */
+/*--------------------------------------------------*/
+.instructions {
+    white-space: pre-line;
+    background-color: var(--color-highlight);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--color-accent);
+    text-align: center;
+}
+
+.element-container {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--transponent);;
+}
+/*--------------------------------------------------*/
+
+/*--------------------------------------------------*/
+/* Стили кнопок и инпутов */
+/*--------------------------------------------------*/
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--color-primary);
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    box-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.2);
+}
+
+button:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#words {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+.textInput {
+    padding: 12px 24px;
+    border-radius: 6px;
+    background-color: var(--color-text-input-bg);
+    color: var(--white);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    min-width: 200px;
+    border: none;
+    text-align: center;
+}
+
+.textInput:focus {
+    background-color: var(--color-text-input-bg-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(41, 128, 185, 0.2);
+}
+
+.textInput::placeholder {
+    color: var(--white);
+    font-style: italic;
+}
+
+.textInput:hover {
+    background-color: var(--color-text-input-bg-dark);
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* CSS Variables (Цвета) */
+/*--------------------------------------------------*/
+:root {
+    /* базовые цвета */
+    --white: #ffffff;
+    --transponent: #ffffff00;
+    /* Основная цветовая палитра */
+    --color-primary: #27588B;
+    --color-primary-dark: #1E3D6C;
+    --color-secondary: #1E3D6C;
+    --color-secondary-dark: #142843;
+    --color-background: #ffffff00;
+    --color-text-input-bg: #5993C9;
+    --color-text-input-bg-dark: #4a7db0;
+    --color-text: #2c3e50;
+    --color-highlight: #e3f2fd;
+    --color-accent: #27588B;
+    --color-label-bg: rgba(255, 255, 255, 0.8);
+    --color-title-bg: #0D1E4C;
+    --color-prewords: #26415E;
+
+    /* Цвета для рыбы */
+    --current-fish-primary: #0099F6;
+    --current-fish-dark: #0079c0;
+    --current-fish-light: #7cc3e1;
+    --current-fish-navy: #09456a;
+    --current-fish-white: #ffffff;
+    --current-fish-black: #000000;
+    
+    --fish-primary: var(--current-fish-primary);
+    --fish-dark: var(--current-fish-dark);
+    --fish-light: var(--current-fish-light);
+    --fish-navy: var(--current-fish-navy);
+    --fish-white: var(--current-fish-white);
+    --fish-black: var(--current-fish-black);
+    --tail-bone-color: var(--current-fish-navy);
+    --tail-color: var(--current-fish-dark);
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* Стили кнопки проверки и подсказки */
+/*--------------------------------------------------*/
+.back-button button{
+    background-image: var(--back-button-svg);
+}
+
+.check-button button {
+    background-image: var(--check-button-svg);
+}
+
+.hint-button button {
+    background-image: var(--hint-button-svg);
+}
+
+.image-button button {
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    border-radius: 8px;
+    width: 65px;
+    height: 65px;
+    box-shadow: none;
+}
+
+.check-button:hover button {
+    transform: scale(1.05);
+}
+
+.check-button:active button {
+    transform: scale(0.95);
+}
+
+/*--------------------------------------------------*/
+
+/*--------------------------------------------------*/
+/* Стили для облачка диалога */
+/*--------------------------------------------------*/
+.dialog {
+    min-width: 150px;
+    padding: 12px 16px;
+    margin-top: 90px;
+    font-size: 14px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background-color: var(--color-label-bg);
+    position: relative;
+    max-width: 200px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    white-space: pre-line;
+}
+
+.dialog::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 20px solid var(--color-label-bg);
+}
+
+.dialog.success {
+    background-color: #e8f5e8;
+    border-color: #27ae60;
+    color: #27ae60;
+}
+.dialog.success::before {
+    border-left: 20px solid #27ae60;
+}
+
+.dialog.error {
+    background-color: #ffeaea;
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+.dialog.error::before {
+    border-left: 20px solid #e74c3c
+}
+
+.dialog.info {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+    color: #1976d2;
+}
+.dialog.info::before {
+    border-left: 20px solid #1976d2;
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* Стили контейнера рыбки и её частей */
+/*--------------------------------------------------*/
+.fish-wrapper {
+    display: flex;
+    align-items: flex-start;
+    padding: 0px;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    justify-content: center;
+}
+
+.fish {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 690px;
+    align-items: center;
+    justify-content: center;
+}
+
+.fish-container {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    min-height: 48px;
+    border-radius: 10px;
+    background-color: #ffffff00;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.fish-container button {
+    background-color: var(--color-primary);
+}
+
+.fish-container button:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.up-bones {
+    padding: 20px;
+    min-height: 97px;
+    min-width: 650px;
+}
+
+.up-bones button{
+    background-color: var(--color-prewords);
+}
+
+.middle-bones {
+    padding: 0px 0px 40px;
+}
+
+.down-bones {
+    padding: 30px 0px 30px;
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* Стили слоев рыбы (общие) */
+/*--------------------------------------------------*/
+.image-container {
+    position: relative;
+}
+
+.fish-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 125%;
+    height: 140%;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    z-index: -1;
+    margin-top: -10%;
+}
+
+/* Конкретные части рыбы */
+.main-body {
+    background-color: var(--fish-primary);
+    mask-image: var(--main-body-mask);
+    -webkit-mask-image: var(--main-body-mask);
+}
+
+.light-body {
+    background-color: var(--fish-light);
+    mask-image: var(--light-body-mask);
+    -webkit-mask-image: var(--light-body-mask);
+}
+
+.dark-body {
+    background-color: var(--fish-dark);
+    mask-image: var(--dark-body-mask);
+    -webkit-mask-image: var(--dark-body-mask);
+}
+
+.pattern {
+    background-color: var(--fish-navy);
+    mask-image: var(--pattern-mask);
+    -webkit-mask-image: var(--pattern-mask);
+}
+
+.fin {
+    background-color: var(--fish-navy);
+    mask-image: var(--fin-mask);
+    -webkit-mask-image: var(--fin-mask);
+}
+
+.eye-outer {
+    background-color: var(--fish-dark);
+    mask-image: var(--eye-outer-mask);
+    -webkit-mask-image: var(--eye-outer-mask);
+}
+
+.eye-middle {
+    background-color: var(--fish-white);
+    mask-image: var(--eye-middle-mask);
+    -webkit-mask-image: var(--eye-middle-mask);
+}
+
+.eye-inner {
+    background-color: var(--fish-black);
+    mask-image: var(--eye-inner-mask);
+    -webkit-mask-image: var(--eye-inner-mask);
+}
+
+.eye-highlight {
+    background-color: var(--fish-white);
+    mask-image: var(--eye-highlight-mask);
+    -webkit-mask-image: var(--eye-highlight-mask);
+}
+
+.lines {
+    background-color: var(--fish-navy);
+    mask-image: var(--lines-mask);
+    -webkit-mask-image: var(--lines-mask);
+}
+
+.tail-bone {
+    background-color: var(--tail-bone-color);
+    mask-image: var(--tail-bone-svg);
+    -webkit-mask-image: var(--tail-bone-svg);
+}
+
+.tail {
+    background-color: var(--tail-color);
+    mask-image: var(--tail-svg);
+    -webkit-mask-image: var(--tail-svg);
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* CSS Variables (Изображения) */
+/*--------------------------------------------------*/
+:root {
+    /* SVG */
+    --drop-area-default-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%2327588b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13.5 3H8a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h3m2.5-18L19 8.625M13.5 3v4.625a1 1 0 0 0 1 1H19m0 0v3.188'/%3E%3Cpath stroke='%2327588b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 8.625V18a3 3 0 0 1-3 3H9.5'/%3E%3C/svg%3E");
+
+    --drop-area-add-svg: url("data:image/svg+xml,%3Csvg width='800px' height='800px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125' stroke='%2327588b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M17 15V18M17 21V18M17 18H14M17 18H20' stroke='%2327588b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    --drop-area-error-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23f44336' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13.5 3H8a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h3m2.5-18L19 8.625M13.5 3v4.625a1 1 0 0 0 1 1H19m0 0v3.188'/%3E%3Cpath stroke='%23f44336' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19.121 15.879 17 18m-2.121 2.121L17 18m0 0-2.121-2.121M17 18l2.121 2.121'/%3E%3C/svg%3E");
+
+    --drop-area-success-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%234CAF50' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13.5 3H8a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h3m2.5-18L19 8.625M13.5 3v4.625a1 1 0 0 0 1 1H19m0 0v3.188'/%3E%3Cpath stroke='%234CAF50' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15.5 15.5 18 18l4.5-4.5'/%3E%3C/svg%3E");
+
+    --drop-area-download-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%2327588b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13.5 3H8a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h3m2.5-18L19 8.625M13.5 3v4.625a1 1 0 0 0 1 1H19m0 0v3.188'/%3E%3Cpath stroke='%2327588b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m12 16-3-3m0 0 3-3m-3 3h6m-6 3v3'/%3E%3C/svg%3E");
+
+    --check-button-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Crect style='fill:%23ffffff;fill-opacity:1;stroke:%234c4372;stroke-width:0.46;' width='22.54' height='22.54' x='0.73' y='0.73' rx='8.31' ry='10.24'/%3E%3Cellipse style='opacity:1;fill:%23ffc563;stroke:%234c4372;stroke-width:0.46;' ry='6.65' rx='6.34' cy='12.51' cx='11.82'/%3E%3Cpath style='fill:%23ffffff;stroke:%234c4372;stroke-width:0.74;' d='m11.64 14.5c-0.12-0.02-0.28-0.07-0.41-0.14-0.18-0.1-1.12-1.1-1.75-1.87-0.23-0.27-0.32-0.41-0.4-0.61-0.05-0.13-0.06-0.17-0.07-0.42-0.01-0.31 0.02-0.46 0.11-0.65 0.18-0.36 0.45-0.62 0.79-0.76 0.15-0.06 0.18-0.06 0.41-0.06 0.3 0 0.42 0.03 0.63 0.15 0.13 0.07 0.22 0.15 0.63 0.57 0.27 0.27 0.51 0.5 0.55 0.52 0.03 0.02 0.13 0.03 0.21 0.03 0.13 0 0.16-0.01 0.23-0.06 0.09-0.06 0.45-0.42 2.86-2.89 0.79-0.81 1.55-1.59 1.68-1.72 0.34-0.34 0.46-0.39 0.9-0.4 0.22 0 0.26 0.01 0.37 0.05 0.26 0.11 0.53 0.36 0.65 0.61l0.06 0.14v0.33c0 0.32 0 0.33-0.05 0.43-0.03 0.05-0.13 0.19-0.22 0.3-0.2 0.24-5.12 5.37-5.58 5.83-0.27 0.27-0.35 0.33-0.48 0.4-0.33 0.17-0.82 0.27-1.12 0.23z'/%3E%3C/svg%3E");
+
+    --back-button-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath style='fill:%23ffc563;fill-opacity:1;stroke:%234c4372;stroke-width:0.45;' d='M9.843 23.131c-.32-.077-.64-.25-.89-.481-.07-.068-1.445-1.673-3.049-3.566-1.604-1.893-3.28-3.869-3.724-4.391-.444-.522-.853-1.018-.908-1.103-.465-.715-.574-1.682-.286-2.532.134-.396.259-.58.978-1.44 5.224-6.247 6.832-8.161 6.941-8.261.117-.162.403-.337.626-.42 1.172-.434 2.413.412 2.722 1.856.032.152.043.295.043.588 0 .434-.033.639-.159.996-.159.449-.201.505-2.093 2.768l-1.772 2.119 6.617.007 6.617.007.18.073c.86.348 1.43 1.417 1.43 2.682 0 .54-.078.947-.271 1.417-.208.506-.528.901-.911 1.125-.402.235.354.211-7.034.226l-6.561.013 1.758 2.08c.986 1.167 1.803 2.155 1.86 2.251.13.215.27.567.332.837.041.175.049.278.048.649-.0003.404-.006.462-.062.681-.245.954-.874 1.638-1.677 1.822-.202.046-.617.045-.814-.002z'/%3E%3C/svg%3E");
+
+    --hint-button-svg: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle style="fill:%23fdc467;fill-opacity:1" cx="256" cy="256" r="207" transform="scale(0.04589372,0.04492187)"/><path style="fill:%23ffffff;fill-opacity:1" d="M 434.006,183.869 C 434.006,85.616 354.402,5.955 256.17,5.863 157.955,5.771 77.993,85.656 77.994,183.871 c 0.001,74.657 45.967,138.567 111.138,165.004 v 118.204 c 0,21.229 17.21,38.439 38.439,38.439 h 56.859 c 21.229,0 38.439,-17.21 38.439,-38.439 V 348.875 c 65.17,-26.437 111.137,-90.349 111.137,-165.006 z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%23d3e6f8;fill-opacity:1" d="m 256.042,5.864 c -0.004,0.02 0.001,-0.007 -0.002,0.012 2.563,0.923 146.08,53.112 146.08,177.064 0,92.802 -61.359,125.607 -93.02,136.357 -11.016,3.74 -18.427,14.064 -18.427,25.697 v 60.84 h 32.196 v -19.74 -37.22 C 388.04,322.437 434.007,258.525 434.007,183.868 434.006,85.573 354.333,5.885 256.042,5.864 Z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%23a4cff2;fill-opacity:1" d="m 282.097,506.137 h -52.194 c -22.517,0 -40.771,-18.254 -40.771,-40.771 v -59.531 h 133.737 v 59.531 c -0.001,22.517 -18.255,40.771 -40.772,40.771 z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%237babf1;fill-opacity:1" d="m 290.673,505.226 c 18.398,-3.94 32.196,-20.285 32.196,-39.86 v -59.531 h -32.196 z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%234c4372;fill-opacity:1" d="M 284.429,511.381 H 227.57 c -24.428,0 -44.301,-19.874 -44.301,-44.302 V 352.778 C 151.326,339.018 124.08,316.608 104.29,287.773 83.251,257.118 72.131,221.19 72.131,183.871 72.13,134.832 91.279,88.678 126.048,53.911 160.816,19.146 206.968,0 256.001,0 h 0.175 c 49.077,0.046 95.208,19.192 129.897,53.911 34.691,34.722 53.796,80.875 53.796,129.957 0,37.319 -11.12,73.248 -32.159,103.903 -19.79,28.836 -47.035,51.245 -78.979,65.006 v 114.301 c 0,24.429 -19.874,44.303 -44.302,44.303 z M 256.001,11.725 c -45.902,0 -89.109,17.926 -121.661,50.477 -32.555,32.553 -50.484,75.762 -50.483,121.669 0.001,70.451 42.189,133.087 107.479,159.572 2.212,0.897 3.659,3.046 3.659,5.432 v 118.204 c 0,17.963 14.614,32.576 32.576,32.576 h 56.859 c 17.963,0 32.576,-14.613 32.576,-32.576 V 348.875 c 0,-2.387 1.447,-4.535 3.659,-5.432 65.291,-26.486 107.479,-89.122 107.479,-159.574 0,-94.831 -77.149,-172.055 -171.979,-172.144 z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%234c4372;fill-opacity:1" d="m 282.097,512 h -52.194 c -25.714,0 -46.634,-20.92 -46.634,-46.634 v -59.531 c 0,-3.238 2.625,-5.863 5.863,-5.863 h 133.737 c 3.238,0 5.863,2.625 5.863,5.863 v 59.531 C 328.731,491.08 307.811,512 282.097,512 Z M 194.994,411.698 v 53.668 c 0,19.249 15.66,34.909 34.909,34.909 h 52.194 c 19.249,0 34.909,-15.66 34.909,-34.909 v -53.668 z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%23fdc467;fill-opacity:1" d="M 241.284,224.822 V 115.733 c 0,-8.101 6.751,-14.851 14.851,-14.851 8.101,0 14.582,6.751 14.582,14.851 v 109.089 c 0,8.371 -6.481,14.851 -14.582,14.851 -8.101,0.001 -14.851,-6.48 -14.851,-14.851 z m 14.851,65.076 c -8.101,0 -14.851,-6.48 -14.851,-14.851 v -5.4 c 0,-8.101 6.751,-14.851 14.851,-14.851 8.101,0 14.582,6.751 14.582,14.851 v 5.4 c -10e-4,8.371 -6.482,14.851 -14.582,14.851 z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%234c4372;fill-opacity:1" d="M 322.443,448 H 189.557 c -3.238,0 -5.863,-2.762 -5.863,-6 0,-3.238 2.625,-6 5.863,-6 h 132.885 c 3.238,0 5.863,2.762 5.863,6 0,3.238 -2.625,6 -5.862,6 z" transform="scale(0.04589372,0.04492187)"/><path style="fill:%234c4372;fill-opacity:1" d="M 322.443,481 H 189.557 c -3.238,0 -5.863,-2.762 -5.863,-6 0,-3.238 2.625,-6 5.863,-6 h 132.885 c 3.238,0 5.863,2.762 5.863,6 0,3.238 -2.625,6 -5.862,6 z" transform="scale(0.04589372,0.04492187)"/></svg>');
+
+    --main-body-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M.048 83.932c.65 2.915 4.265 4.258 6.807 5.826 10.689 6.592 22.387 6.068 33.16 2.518 6.564-.794 15.1-9.407 7.123 1.78-10.24 14.36-38.377 19.574-36.475 23.212 11.96 22.883 55.801 28.287 67.37 30.32 7.406 1.3 12.161-48.319 12.027-67.325-.121-21.785 2.595-43.192-2.453-47.59-7.142-.958-22.404 4.212-29.6 6.731-11.82 4.314-23.503 9.348-34.203 15.966C10.687 63.483-.842 79.937.048 83.932z'/%3E%3C/svg%3E");
+    
+    --light-body-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M87.08 32.615c30.126-6.05 64.79-7.002 115.246 3.393 24.49 5.045 91.539 36.081 90.815 42.923-1.544 14.581-59.27 59.61-101.428 66.765-43.145 7.322-62.46 10.425-113.68 1.891 0 0 15.899-43.862 15.492-58.664-1.288-46.818-12.814-55.028-6.444-56.308z'/%3E%3C/svg%3E");
+    
+    --dark-body-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M83.425 33.092s5.738 38.259 5.492 55.844c-.306 21.803-10.884 58.651-10.884 58.651l5.287.858s9.996-36.575 10.205-59.522c.146-16.053-6.059-56.651-6.059-56.651 4.19-1.98-10.909-.186-4.04.82z'/%3E%3C/svg%3E");
+    
+    --pattern-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M90.646 32.263 76.204 33.92s2.425-15.554 10.798-22.528C97.288 2.824 105.564.862 120.396.104 176.638-2.769 252.654 54.7 252.654 54.7s-23.283-9.178-50.474-15.867c-24.571-6.044-52.853-9.438-68.492-9.438-21.387 0-17.303-.146-43.042 2.868z'/%3E%3C/svg%3E");
+    
+    --fin-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M102.217 105.264l15.842 31.023s20.404 32.601 37.703 18.653c18.468-14.891-22.49-36.513-22.49-36.513z'/%3E%3C/svg%3E");
+    
+    --eye-outer-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M44.758 80.82c14.683-.167 20.1-13.53 18.524-29.336-.488-4.902-3.24-18.6-20.69-18.93-11.015-.208-18.688 12.035-18.963 21.494-.269 9.232 4.08 26.965 21.129 26.772z'/%3E%3C/svg%3E");
+    
+    --eye-middle-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M45.026 77.165c10.924.323 16.654-10.773 15.795-23.914-.3-4.573-5.454-17.18-17.145-16.981-8.927.15-16.528 9.287-16.605 19.302-.053 7.035 1.907 21.119 17.955 21.593z'/%3E%3C/svg%3E");
+    
+    --eye-inner-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M47.156 71.195c7.907-.365 11.479-6.792 11.823-17.371.265-8.132-7.031-14.06-12.833-13.91-6.725.174-12.373 7.104-12.43 14.764-.04 5.381 1.933 17.048 13.44 16.517z'/%3E%3C/svg%3E");
+    
+    --eye-highlight-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M50.48 59.64c2.79-.105 4.401-3.536 4.337-6.2-.062-2.59-1.665-5.682-4.733-5.684-3.228-.002-4.947 3.22-4.97 5.704-.016 1.744.66 6.356 5.366 6.18z'/%3E%3C/svg%3E");
+    
+    --lines-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath fill='none' stroke='%2309456a' stroke-linecap='round' stroke-width='4.2' d='M291.751 78.931H95.196M104.917 78.931l26.373-37.864M131.375 78.931l26.373-37.864M157.833 78.931l26.374-37.864M131.375 78.931l42.278 47.895M157.833 78.931l42.278 47.895M184.292 78.931l42.278 47.895'/%3E%3C/svg%3E");
+    
+    --tail-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath d='M288.356 76.726c0-6.745 4.27-7.714 6.288-14.109 3.248-10.292 6.54-20.629 10.813-30.285 3.339-7.546 6.871-15.124 11.51-21.44 2.865-3.902 6.019-7.85 9.882-9.895 1.804-.955 3.87-1.145 5.813-.9 1.745.22 3.572.792 4.999 2.1 2.303 2.11 3.82 5.466 5.115 8.695 2.372 5.915 3.503 12.555 4.65 19.04 1.63 9.208 2.604 18.621 3.14 28.037.938 16.498 1.201 33.143.116 49.626-.593 8.996-1.67 18.006-3.604 26.687-1.247 5.6-2.488 11.443-5.116 16.192-1.672 3.024-3.806 6.038-6.51 7.347-2.466 1.193-5.402 1.053-7.906 0-3.564-1.499-6.327-5.262-9.068-8.546-3.729-4.467-6.913-11.258-9.882-16.58-4.866-8.721-9.06-24.944-12.905-34.466-2.577-6.38-7.335-9.99-7.335-17.091z'/%3E%3C/svg%3E");
+
+    --tail-bone-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 351.389 158.664'%3E%3Cpath fill='none' stroke='%2309456a' stroke-linecap='round' stroke-width='4.2' d='m288.356 78.932 60.878-.033M288.356 78.932l52.965-65.973M341.654 146.072l-53.298-66.917M288.356 78.932l59.878 32.965M288.356 78.825l59.194-33.032'/%3E%3C/svg%3E");
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* Стили инпута файлов */
+/*--------------------------------------------------*/
+.input-group.input {
+    width: 100%;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background: #f9f9f9;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible;
+    background-image: var(--drop-area-default-svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 65px 65px;
+    transition: all 0.3s ease;
+}
+
+#drop-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(249, 249, 249, 0.9);
+    z-index: 0;
+}
+
+#drop-area.dragover {
+    background-color: #e3f2fd;
+    border-color: #007cba;
+}
+
+#drop-area.success {
+    background-color: #e8f5e8;
+    border-color: #4caf50;
+    background-image: var(--drop-area-success-svg);
+}
+
+#drop-area.error {
+    background-color: #ffebee;
+    border-color: #f44336;
+    background-image: var(--drop-area-error-svg);
+}
+
+#drop-area p {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    max-width: 80%;
+}
+
+/* Стили меню файлового инпута */
+.file-drop-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 200px;
+    display: none;
+    padding: 8px 0;
+    animation: menuFadeIn 0.2s ease-out;
+}
+
+.file-drop-menu .menu-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.file-drop-menu .menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+.file-drop-menu .menu-item:active {
+    background-color: #e0e0e0;
+}
+
+.file-drop-menu .menu-item svg {
+    stroke: #333;
+}
+
+.file-drop-menu .reset-btn {
+    border-top: 1px solid #eee;
+    margin-top: 4px;
+    color: #666;
+}
+
+.file-drop-menu .reset-btn svg {
+    stroke: #666;
+}
+
+/* Анимация появления меню */
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Стили для иконок состояний */
+#drop-area .icon {
+    position: relative;
+    z-index: 1;
+    font-size: 24px;
+}
+
+/* Класс для открытого меню */
+#drop-area.menu-open {
+    border-color: #007cba;
+    background-color: #e3f2fd;
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* Стили select элементов */
+/*--------------------------------------------------*/
+.select-container {
+    position: relative;
+    width: 250px;
+    background-color: transparent;
+    border-radius: 12px;
+}
+
+.select-header {
+    position: relative;
+    padding: 12px 16px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-primary-dark));
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(30, 61, 108, 0.2);
+    transition: all 0.2s ease;
+    border: 3px solid white;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.select-header:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(30, 61, 108, 0.3);
+    transform: translateY(-1px);
+}
+
+.select-header:active {
+    transform: translateY(0);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.select-header::after {
+    content: "▼";
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.select-header.open::after {
+    transform: rotate(180deg);
+}
+
+.select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 5px;
+    overflow: hidden;
+    z-index: 1000;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.select-options.open {
+    max-height: 300px;
+    opacity: 1;
+}
+
+.select-option {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--color-text);
+    background-color: var(--color-label-bg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.select-option:last-child {
+    border-bottom: none;
+}
+
+.select-option:hover {
+    background-color: var(--color-primary);
+    color: white;
+    transform: translateX(5px);
+}
+
+.select-option.active {
+    background-color: var(--color-primary);
+    color: white;
+    position: relative;
+}
+
+.select-option.active::before {
+    content: "✓";
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.select-option:active {
+    transform: translateX(5px) scale(0.98);
+}
+/*--------------------------------------------------*/ 
+ 
+/*--------------------------------------------------*/
+/* Стили слайдеров (общие) */
+/*--------------------------------------------------*/
+.slider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: transparent;
+    border-radius: 12px;
+}
+
+.slider-track {
+    position: relative;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-thumb {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: var(--color-secondary);
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: 0 4px 8px rgba(30, 61, 108, 0.4);
+    transition: all 0.2s ease;
+    border: 3px solid white;
+}
+
+.slider-thumb:active {
+    cursor: grabbing;
+}
+
+.slider-labels {
+    display: flex;
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+.slider-labels span {
+    padding: 5px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    background-color: var(--color-label-bg);
+    margin: 0px 5px;
+    cursor: pointer;
+}
+
+.slider-labels span.active {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.slider-track:hover {
+    opacity: 0.9;
+}
+/*--------------------------------------------------*/
+
+/*--------------------------------------------------*/
+/* Горизонтальный слайдер */
+/*--------------------------------------------------*/
+.slider.horizontal {
+    flex-direction: column;
+}
+
+.slider.horizontal .slider-track {
+    width: 250px;
+    height: 20px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-primary-dark));
+}
+
+.slider.horizontal .slider-thumb {
+    top: -8px;
+    transform: translateX(-50%);
+}
+
+.slider.horizontal .slider-thumb:hover {
+    transform: translateX(-50%) scale(1.1);
+}
+
+.slider.horizontal .slider-thumb:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+.slider.horizontal .slider-labels {
+    flex-direction: row;
+    justify-content: space-between;
+}
+/*--------------------------------------------------*/
+
+/*--------------------------------------------------*/
+/* Вертикальный слайдер */
+/*--------------------------------------------------*/
+.slider.vertical {
+    flex-direction: row;
+    margin-top: 33%;
+}
+
+.slider.vertical .slider-track {
+    width: 20px;
+    height: 280px;
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-primary-dark));
+}
+
+.slider.vertical .slider-thumb {
+    left: -8px;
+    transform: translateY(-50%);
+}
+
+.slider.vertical .slider-thumb:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider.vertical .slider-thumb:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.slider.vertical .slider-labels {
+    flex-direction: column;
+    justify-content: space-between;
+    height: 280px;
+}
+/*--------------------------------------------------*/ 
+</style> 
+<body> 
+<!-- ========== HTML ФАЙЛЫ ========== --> 
+ 
+<div class="game-container" id="game-container">
+    <div class="center" style="padding-left: 2.5%">
+        <h2 id="title" class="title"></h2>
+    </div>
+
+    <div class="fish-wrapper" id="fish-wrapper">
+        <div class="dialog-container" style="width: 15%">
+            <div>
+                <div class="image-button hint-button center">
+                    <button id="hintButton"></button>
+                </div>
+                <div class="center input-group">
+                    <div id="drop-area">
+                        <input type="file" id="file-input" style="display: none;">
+                    </div>
+                </div>
+                <!-- Шаблон меню для FileDragDrop -->
+                <template id="file-drop-menu-template">
+                    <div class="menu-item upload-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <span>Загрузить файл</span>
+                    </div>
+                    <div class="menu-item download-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        <span>Скачать файл</span>
+                    </div>
+                    <div class="menu-item reset-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                        <span>Сбросить</span>
+                    </div>
+                </template>
+                <div class="dialog center hidden" id="dialog"></div>
+            </div>
+        </div>
+
+        <!-- ОСНОВНАЯ РЫБА -->
+        <div class="image-container">
+            <div class="fish-layer main-body"></div>
+            <div class="fish-layer light-body"></div>
+            <div class="fish-layer dark-body"></div>
+            <div class="fish-layer pattern"></div>
+            <div class="fish-layer fin"></div>
+            <div class="fish-layer eye-outer"></div>
+            <div class="fish-layer eye-middle"></div>
+            <div class="fish-layer eye-inner"></div>
+            <div class="fish-layer eye-highlight"></div>
+            <div class="fish-layer lines"></div>             
+            <div class="fish-layer tail"></div>
+            <div class="fish-layer tail-bone"></div>       
+            
+            <!-- Горизонтальный слайдер для числа -->
+            <div class="new-margin slider horizontal" id="countSliderContainer"></div>
+            <div class="fish">                    
+                <div class="fish-container up-bones center" id="boneUpContainer"></div>
+                <div class="fish-container middle-bones center" id="spineContainer"></div>
+                <div class="fish-container down-bones center" id="boneDownContainer">
+                    <input class="textInput" id="endwordInput" type="text">
+                    <div class="element-container center" id="words"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ХВОСТ С ВЕРТИКАЛЬНЫМ СЛАЙДЕРОМ -->
+        <div class="case-container">
+            <div class="slider vertical" id="caseSliderContainer" style="padding-bottom: 32px"></div>
+            <div class="image-button center">
+                <div class="back-button">
+                    <button id="backButton"></button>
+                </div>
+                <div class="check-button" style="padding-left: 10px">
+                    <button id="checkAnswerButton"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<!-- ========== JS ФАЙЛЫ ========== --> 
+<script> 
+ 
+//-----------------------------------------------------------------------------------
+// Переменные с текстовым содержимым
+//-----------------------------------------------------------------------------------
+const wordsSelect = 'Выбери слово';
+const endwordSelect = 'Напиши окончание и проверь себя';
+const endwordInputPlaceholder = "Напиши окончание...";
+const checkAnswerNone = "Напиши окончание";
+const checkAnswerTrue = "Всё верно!";
+const checkAnswerFalse = "Есть ошибка!";
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+// Массивы с текстом
+//-----------------------------------------------------------------------------------
+const counts = ['Единственное', 'Множественное'];
+const casewords = ['Именительный', 'Родительный', 'Дательный', 'Винительный', 'Творительный', 'Предложный'];
+const casewordsQuestions = ['(Кто? Что?)', '(Кого? Чего?)', '(Кому? Чему?)', '(Кого? Что?)', '(Кем? Чем?)', '(О ком? О чём?)'];
+const defaultWords = [
+  [ // Слово 0
+    [ // единственное число
+      [['дом', '-']], // И
+      [['дома', 'а']], // Р
+      [['дому', 'у']], // Д
+      [['дом', '-']], // В
+      [['домом', 'ом']], // Т
+      [['доме', 'е']], // П
+    ],
+    [ // множественное число
+      [['дома', 'а']], // И
+      [['домов', 'ов']], // Р
+      [['домам', 'ам']], // Д
+      [['дома', 'а']], // В
+      [['домами', 'ами']], // Т
+      [['домах', 'ах']], // П
+    ]
+  ],
+  [ // Слово 1
+    [ // единственное число
+      [['лиса', 'а']], // И
+      [['лисы', 'ы']], // Р
+      [['лисе', 'е']], // Д
+      [['лису', 'у']], // В
+      [['лисой', 'ой']], // Т
+      [['лисе', 'е']], // П
+    ],
+    [ // множественное число
+      [['лисы', 'ы']], // И
+      [['лис', '-']], // Р
+      [['лисам', 'ам']], // Д
+      [['лис', '-']], // В
+      [['лисами', 'ами']], // Т
+      [['лисах', 'ах']], // П
+    ]
+  ],
+  [ // Слово 2
+    [ // единственное число
+      [['стол', '-']], // И
+      [['стола', 'а']], // Р
+      [['столу', 'у']], // Д
+      [['стол', '-']], // В
+      [['столом', 'ом']], // Т
+      [['столе', 'е']], // П
+    ],
+    [ // множественное число
+      [['столы', 'ы']], // И
+      [['столов', 'ов']], // Р
+      [['столам', 'ам']], // Д
+      [['столы', 'ы']], // В
+      [['столами', 'ами']], // Т
+      [['столах', 'ах']], // П
+    ]
+  ],
+  [ // Слово 3
+    [ // единственное число
+      [['цветок', '-']], // И
+      [['цветка', 'а']], // Р
+      [['цветку', 'у']], // Д
+      [['цветок', '-']], // В
+      [['цветком', 'ом']], // Т
+      [['цветке', 'е']], // П
+    ],
+    [ // множественное число
+      [['цветки', 'и']], // И
+      [['цветков', 'ов']], // Р
+      [['цветкам', 'ам']], // Д
+      [['цветки', 'и']], // В
+      [['цветками', 'ами']], // Т
+      [['цветках', 'ах']], // П
+    ]
+  ],
+  [ // Слово 4
+    [ // единственное число
+      [['ночь', '-']], // И
+      [['ночи', 'и']], // Р
+      [['ночи', 'и']], // Д
+      [['ночь', '-']], // В
+      [['ночью', 'ю']], // Т
+      [['ночи', 'и']], // П
+    ],
+    [ // множественное число
+      [['ночи', 'и']], // И
+      [['ночей', 'ей']], // Р
+      [['ночам', 'ам']], // Д
+      [['ночи', 'и']], // В
+      [['ночами', 'ами']], // Т
+      [['ночах', 'ах']], // П
+    ]
+  ],
+  [ // Слово 5
+    [ // единственное число
+      [['кот', '-']], // И
+      [['кота', 'а']], // Р
+      [['коту', 'у']], // Д
+      [['кота', 'а']], // В
+      [['котом', 'ом']], // Т
+      [['коте', 'е']], // П
+    ],
+    [ // множественное число
+      [['коты', 'ы']], // И
+      [['котов', 'ов']], // Р
+      [['котам', 'ам']], // Д
+      [['котов', 'ов']], // В
+      [['котами', 'ами']], // Т
+      [['котах', 'ах']], // П
+    ]
+  ],
+  [ // Слово 6
+    [ // единственное число
+      [['колбаса', 'а']], // И
+      [['колбасы', 'ы']], // Р
+      [['колбасе', 'е']], // Д
+      [['колбасу', 'у']], // В
+      [['колбасой', 'ой']], // Т
+      [['колбасе', 'е']], // П
+    ],
+    [ // множественное число
+      [['колбасы', 'ы']], // И
+      [['колбас', '-']], // Р
+      [['колбасам', 'ам']], // Д
+      [['колбасы', '-']], // В
+      [['колбасами', 'ами']], // Т
+      [['колбасах', 'ах']], // П
+    ]
+  ],
+  [ // Слово 7
+    [ // единственное число
+      [['сумка', 'а']], // И
+      [['сумки', 'и']], // Р
+      [['сумке', 'е']], // Д
+      [['сумку', 'у']], // В
+      [['сумкой', 'ой']], // Т
+      [['сумке', 'е']], // П
+    ],
+    [ // множественное число
+      [['сумки', 'и']], // И
+      [['сумок', 'ок']], // Р
+      [['сумкам', 'ам']], // Д
+      [['сумки', 'и']], // В
+      [['сумкам', 'ам']], // Т
+      [['сумках', 'ах']], // П
+    ]
+  ],
+  [ // Слово 8
+    [ // единственное число
+      [['комок', '-']], // И
+      [['комка', 'а']], // Р
+      [['комку', 'у']], // Д
+      [['комок', '-']], // В
+      [['комком', 'ом']], // Т
+      [['комке', 'е']], // П
+    ],
+    [ // множественное число
+      [['комки', 'и']], // И
+      [['комков', 'ов']], // Р
+      [['комкам', 'ам']], // Д
+      [['комки', 'и']], // В
+      [['комками', 'ами']], // Т
+      [['комках', 'ах']], // П
+    ]
+  ],
+  [ // Слово 9
+    [ // единственное число
+      [['дочь', '-']], // И
+      [['дочери', 'и']], // Р
+      [['дочери', 'и']], // Д
+      [['дочь', '-']], // В
+      [['дочерью', 'ю']], // Т
+      [['дочери', 'и']], // П
+    ],
+    [ // множественное число
+      [['дочери', 'и']], // И
+      [['дочерей', 'ей']], // Р
+      [['дочерям', 'ям']], // Д
+      [['дочерей', 'ей']], // В
+      [['дочерьми', 'ми'],
+       ['дочерями', 'ями']], // Т
+      [['дочерях', 'ях']], // П
+    ]
+  ],
+  [ // Слово 10
+    [ // единственное число
+      [['море', 'е']], // И
+      [['моря', 'я']], // Р
+      [['морю', 'ю']], // Д
+      [['море', 'е']], // В
+      [['морем', 'ем']], // Т
+      [['море', 'е']], // П
+    ],
+    [ // множественное число
+      [['моря', 'я']], // И
+      [['морей', 'ей']], // Р
+      [['морям', 'ям']], // Д
+      [['моря', 'я']], // В
+      [['морами', 'ами']], // Т
+      [['морях', 'ях']], // П
+    ]
+  ],
+  [ // Слово 11
+    [ // единственное число
+      [['банка', 'а']], // И
+      [['банки', 'и']], // Р
+      [['банке', 'е']], // Д
+      [['банку', 'у']], // В
+      [['банкой', 'ой']], // Т
+      [['банке', 'е']], // П
+    ],
+    [ // множественное число
+      [['банки', 'и']], // И
+      [['банок', 'ок']], // Р
+      [['банкам', 'ам']], // Д
+      [['банки', 'и']], // В
+      [['банками', 'ами']], // Т
+      [['банках', 'ах']], // П
+    ]
+  ],
+  [ // Слово 12
+    [ // единственное число
+      [['тень', '-']], // И
+      [['тени', 'и']], // Р
+      [['тени', 'и']], // Д
+      [['тень', '-']], // В
+      [['тенью', 'ю']], // Т
+      [['тени', 'и']], // П
+    ],
+    [ // множественное число
+      [['тени', 'и']], // И
+      [['теней', 'ей']], // Р
+      [['теням', 'ям']], // Д
+      [['тени', 'и']], // В
+      [['тенями', 'ями']], // Т
+      [['тенях', 'ях']], // П
+    ]
+  ]
+];
+let words = defaultWords;
+
+const prewords = [
+    ['-'],
+    ['у', 'с', 'из', 'до', 'от', 'без', 'для', 'около', 'возле', 'после', 'вокруг'],
+    ['к', 'по'],
+    ['в', 'на', 'за', 'про', 'через'],
+    ['с', 'за', 'над', 'под', 'перед'],
+    ['о', 'в', 'на', 'об', 'обо', 'при']
+];
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+// Цвета рыбки
+//-----------------------------------------------------------------------------------
+const caseColors = [
+    { primary: '#FF6B6B', dark: '#FF5252', light: '#FFE0E0', navy: '#C62828' }, // красный
+    { primary: '#4CAF50', dark: '#388E3C', light: '#C8E6C9', navy: '#1B5E20' }, // зеленый
+    { primary: '#0099F6', dark: '#0079c0', light: '#7cc3e1', navy: '#09456a' }, // синий (оставить тот же)
+    { primary: '#FFD700', dark: '#FFC400', light: '#FFF9C4', navy: '#F57F17' }, // желтый
+    { primary: '#6A1B9A', dark: '#4A148C', light: '#E1BEE7', navy: '#38006B' }, // темно-фиолетовый
+    { primary: '#BA68C8', dark: '#AB47BC', light: '#F3E5F5', navy: '#8E24AA' }  // светло-фиолетовый
+];
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+// Запуск
+//-----------------------------------------------------------------------------------
+// Значения слайдеров
+let caseSlider, countSlider;
+let casePosition = 0, countPosition = 0;
+let containerScaler;
+
+// Запуск
+window.onload = init;
+
+// Инициализация при загрузке страницы
+function init() {
+    // Установка начальных текстовых значений
+    document.getElementById('title').textContent = wordsSelect;
+    document.getElementById('endwordInput').placeholder = endwordInputPlaceholder;
+
+    // Сокрытие начальных элементов
+    toggleElements([
+        ['words', true],
+        ['dialog', false],
+        ['boneUpContainer', false],
+        ['endwordInput', false],
+        ['countSliderContainer', false],
+        ['caseSliderContainer', false],
+        ['checkAnswerButton', false],
+        ['hintButton', false],
+        ['backButton', false]
+    ]);
+
+    // Инициализация слайдеров
+    const sliders = initSliders();
+    caseSlider = sliders.caseSlider;
+    countSlider = sliders.countSlider;
+
+    // Инициализация кнопок
+    initButtons();
+
+    // initSelects();
+
+    // Инициализируем отображение предлогов для начального падежа
+    updatePrewordsDisplay();
+    updateAllWordsButtons();
+    
+    // Инициализация размера
+    containerScaler = new ContainerScaler();
+
+    // Инициализация drag/drop
+    new FileDragDrop('drop-area', {
+        // Старый callback для загрузки файла
+        onFileLoad: (fileData) => {
+            parsed = csv_to_words(fileData.content);
+            if (parsed.changed) {
+                words = parsed.data;
+                updateAllWordsButtons();
+                backButton();
+            } else { 
+                setErrorState(); 
+            }
+        },
+        
+        // Новый callback для кнопки "Скачать файл" в меню
+        onDownload: () => {
+            if (words && words.length > 0) {
+                const csvText = words_to_csv(words);
+                downloadFile(csvText, 'words.csv', 'text/csv;charset=utf-8');
+            } else {
+                alert('Нет данных для экспорта');
+            }
+        },
+        
+        // Новый callback для кнопки "Сбросить" в меню
+        onClear: () => {
+            words = defaultWords;
+            updateAllWordsButtons();
+            backButton();
+        }
+    });
+
+    // Визуализация всего
+    toggleElements([['game-container', true]])
+}
+
+// Инициализация выпадающих списков
+function initSelects() {
+    const select = new Select('mySelect', casewords, 0);
+    
+    // Обработка событий
+    select.container.addEventListener('selectChange', (e) => {
+        console.log('Выбрано:', e.detail);
+    });
+    
+    select.container.addEventListener('selectToggle', (e) => {
+        console.log('Селект открыт:', e.detail.isOpen);
+    });
+}
+
+// Инициализация слайдеров
+function initSliders() {
+    // Вертикальный слайдер для падежей
+    const caseSlider = new Slider('caseSliderContainer', casewords, 'vertical');
+    
+    // Горизонтальный слайдер для чисел
+    const countSlider = new Slider('countSliderContainer', counts, 'horizontal');
+    
+    // Обработчики событий
+    caseSlider.container.addEventListener('sliderChange', (e) => {
+        casePosition = e.detail.position;
+        toggleElements([['dialog', false]]);
+        updatePrewordsDisplay();
+    });
+    
+    countSlider.container.addEventListener('sliderChange', (e) => {
+        countPosition = e.detail.position;
+        toggleElements([['dialog', false]]);
+        updateAllWordsButtons();
+    });
+    
+    return { caseSlider, countSlider };
+}
+
+// Инициализация кнопок
+function initButtons() {
+    document.getElementById('checkAnswerButton').onclick = checkButton;
+    document.getElementById('backButton').onclick = backButton;
+    document.getElementById('hintButton').onclick = hintButton;
+
+    createButtons(
+        words,
+        document.getElementById('words'),
+        document.getElementById('spineContainer'),
+        true,
+        5,
+        true
+    );
+}
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+// Выпадающие списки
+//-----------------------------------------------------------------------------------
+class Select {
+    constructor(containerId, optionsArray, selectedIndex = 0) {
+        this.container = document.getElementById(containerId);
+        this.optionsArray = optionsArray;
+        this.selectedIndex = selectedIndex;
+        this.currentScale = 1;
+        
+        this.createSelectStructure();
+        this.init();
+        this.bindScaleEvents();
+    }
+
+    createSelectStructure() {
+        this.container.innerHTML = '';
+        this.container.classList.add('select-container');
+        
+        // Создаем заголовок селекта
+        this.header = document.createElement('div');
+        this.header.classList.add('select-header');
+        
+        this.selectedValue = document.createElement('span');
+        this.selectedValue.classList.add('selected-value');
+        
+        this.header.appendChild(this.selectedValue);
+        this.container.appendChild(this.header);
+        
+        // Создаем контейнер опций
+        this.optionsContainer = document.createElement('div');
+        this.optionsContainer.classList.add('select-options');
+        
+        this.optionsArray.forEach((optionText, index) => {
+            const option = document.createElement('div');
+            option.classList.add('select-option');
+            if (index === this.selectedIndex) {
+                option.classList.add('active');
+            }
+            option.dataset.value = index;
+            option.textContent = optionText;
+            
+            // Добавляем обработчики для клика и касания
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.selectOption(index);
+            });
+            
+            option.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+                this.selectOption(index);
+            });
+            
+            this.optionsContainer.appendChild(option);
+        });
+        
+        this.container.appendChild(this.optionsContainer);
+    }
+
+    init() {
+        // Получаем текущий масштаб
+        if (typeof containerScaler !== 'undefined') {
+            this.currentScale = containerScaler.getScale();
+        }
+        
+        // Устанавливаем начальное значение
+        this.updateSelectedValue();
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        // Обработчик клика по заголовку
+        this.header.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggle();
+        });
+
+        // Обработчик touch для заголовка
+        this.header.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            this.toggle();
+        });
+
+        // Закрытие при клике вне элемента
+        document.addEventListener('click', (e) => {
+            if (!this.container.contains(e.target)) {
+                this.close();
+            }
+        });
+
+        // Закрытие при касании вне элемента
+        document.addEventListener('touchstart', (e) => {
+            if (!this.container.contains(e.target)) {
+                this.close();
+            }
+        });
+    }
+
+    // Метод для привязки событий масштабирования
+    bindScaleEvents() {
+        window.addEventListener('scaleChange', (e) => {
+            this.currentScale = e.detail.scale;
+            // При изменении масштаба пересчитываем позиции
+            this.updateStyles();
+        });
+    }
+
+    toggle() {
+        this.optionsContainer.classList.toggle('open');
+        this.header.classList.toggle('open');
+        
+        // Генерируем событие открытия/закрытия
+        this.container.dispatchEvent(new CustomEvent('selectToggle', {
+            detail: { 
+                isOpen: this.optionsContainer.classList.contains('open')
+            }
+        }));
+    }
+
+    open() {
+        this.optionsContainer.classList.add('open');
+        this.header.classList.add('open');
+        
+        this.container.dispatchEvent(new CustomEvent('selectToggle', {
+            detail: { 
+                isOpen: true
+            }
+        }));
+    }
+
+    close() {
+        this.optionsContainer.classList.remove('open');
+        this.header.classList.remove('open');
+        
+        this.container.dispatchEvent(new CustomEvent('selectToggle', {
+            detail: { 
+                isOpen: false
+            }
+        }));
+    }
+
+    selectOption(index) {
+        if (index < 0 || index >= this.optionsArray.length) return;
+        
+        // Убираем активный класс у всех опций
+        this.optionsContainer.querySelectorAll('.select-option').forEach((option, i) => {
+            option.classList.toggle('active', i === index);
+        });
+        
+        this.selectedIndex = index;
+        this.updateSelectedValue();
+        this.close();
+        
+        // Генерируем событие изменения
+        this.container.dispatchEvent(new CustomEvent('selectChange', {
+            detail: { 
+                index: this.selectedIndex,
+                value: this.optionsArray[this.selectedIndex],
+                label: this.optionsArray[this.selectedIndex]
+            }
+        }));
+    }
+
+    updateSelectedValue() {
+        this.selectedValue.textContent = this.optionsArray[this.selectedIndex];
+    }
+
+    updateStyles() {
+        // Метод для обновления стилей при изменении масштаба
+        // Можно добавить дополнительную логику при необходимости
+    }
+
+    getSelectedIndex() {
+        return this.selectedIndex;
+    }
+
+    getSelectedValue() {
+        return this.optionsArray[this.selectedIndex];
+    }
+
+    setSelectedIndex(index) {
+        if (index >= 0 && index < this.optionsArray.length) {
+            this.selectOption(index);
+        }
+    }
+
+    setOptions(newOptionsArray, selectedIndex = 0) {
+        this.optionsArray = newOptionsArray;
+        this.selectedIndex = selectedIndex;
+        
+        // Пересоздаем структуру
+        this.createSelectStructure();
+        this.updateSelectedValue();
+        this.bindEvents();
+    }
+
+    // Метод для обновления масштаба (может быть вызван извне)
+    updateScale(newScale) {
+        this.currentScale = newScale;
+        this.updateStyles();
+    }
+
+    // Метод для получения всех опций
+    getOptions() {
+        return this.optionsArray;
+    }
+
+    // Метод для проверки, открыт ли селект
+    isOpen() {
+        return this.optionsContainer.classList.contains('open');
+    }
+}
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+// Слайдеры
+//-----------------------------------------------------------------------------------
+// Универсальный класс Slider с поддержкой направлений
+class Slider {
+    constructor(containerId, labelsArray, orientation = 'horizontal') {
+        this.container = document.getElementById(containerId);
+        this.labelsArray = labelsArray;
+        this.positions = labelsArray.length;
+        this.currentPosition = 0;
+        this.orientation = orientation;
+        this.currentScale = 1;
+        
+        this.createSliderStructure();
+        this.init();
+        this.bindScaleEvents();
+    }
+
+    createSliderStructure() {
+        this.container.innerHTML = '';
+        this.container.classList.add('slider-container', this.orientation);
+        
+        // Создаем track слайдера
+        this.track = document.createElement('div');
+        this.track.classList.add('slider-track');
+        
+        // Создаем thumb слайдера
+        this.thumb = document.createElement('div');
+        this.thumb.classList.add('slider-thumb');
+        
+        this.track.appendChild(this.thumb);
+        this.container.appendChild(this.track);
+        
+        // Создаем контейнер меток
+        this.labelsContainer = document.createElement('div');
+        this.labelsContainer.classList.add('slider-labels');
+        
+        this.labelsArray.forEach((labelText, index) => {
+            const span = document.createElement('span');
+            span.textContent = labelText;
+            span.classList.toggle('active', index === 0);
+            span.dataset.position = index;
+            
+            // Добавляем обработчик клика на метку
+            span.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.handleLabelClick(index);
+            });
+            
+            // Добавляем touch события для мобильных устройств
+            span.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+                this.handleLabelClick(index);
+            });
+            
+            this.labelsContainer.appendChild(span);
+        });
+        
+        this.container.appendChild(this.labelsContainer);
+        this.labels = this.container.querySelectorAll('.slider-labels span');
+    }
+
+    init() {
+        // Получаем текущий масштаб
+        if (typeof containerScaler !== 'undefined') {
+            this.currentScale = containerScaler.getScale();
+        }
+        this.setPosition(0);
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        this.track.addEventListener('click', (e) => {
+            this.handleTrackClick(e);
+        });
+
+        this.thumb.addEventListener('mousedown', (e) => {
+            this.startDrag(e);
+        });
+
+        // Также добавляем обработчик для touch событий
+        this.thumb.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.startDrag(e.touches[0]);
+        });
+    }
+
+    // Новый метод для обработки клика на метку
+    handleLabelClick(position) {
+        this.setPosition(position);
+    }
+
+    // Новый метод для привязки событий масштабирования
+    bindScaleEvents() {
+        window.addEventListener('scaleChange', (e) => {
+            this.currentScale = e.detail.scale;
+            // При изменении масштаба пересчитываем текущую позицию
+            this.setPosition(this.currentPosition);
+        });
+    }
+
+    handleTrackClick(e) {
+        const rect = this.track.getBoundingClientRect();
+        const coord = this.orientation === 'vertical' ? 
+            e.clientY - rect.top : e.clientX - rect.left;
+        const position = this.calculatePosition(coord);
+        this.setPosition(position);
+    }
+
+    startDrag(e) {
+        e.preventDefault();
+
+        const onMove = (moveEvent) => {
+            const clientEvent = moveEvent.type.includes('touch') ? moveEvent.touches[0] : moveEvent;
+            const rect = this.track.getBoundingClientRect();
+            const coord = this.orientation === 'vertical' ? 
+                clientEvent.clientY - rect.top : clientEvent.clientX - rect.left;
+            const position = this.calculatePosition(coord);
+            this.setPosition(position);
+        };
+
+        const onEnd = () => {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('touchmove', onMove);
+            document.removeEventListener('mouseup', onEnd);
+            document.removeEventListener('touchend', onEnd);
+            document.removeEventListener('touchcancel', onEnd);
+        };
+
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('touchmove', onMove, { passive: false });
+        document.addEventListener('mouseup', onEnd);
+        document.addEventListener('touchend', onEnd);
+        document.addEventListener('touchcancel', onEnd);
+    }
+
+    calculatePosition(coord) {
+        // Корректируем координаты с учетом масштаба
+        const adjustedCoord = coord / this.currentScale;
+        const trackSize = this.orientation === 'vertical' ? 
+            this.track.offsetHeight : this.track.offsetWidth;
+        const normalizedCoord = Math.max(0, Math.min(adjustedCoord, trackSize));
+        const position = Math.floor((normalizedCoord / trackSize) * this.positions);
+        return Math.min(position, this.positions - 1);
+    }
+
+    setPosition(position) {
+        this.currentPosition = position;
+        const trackSize = this.orientation === 'vertical' ? 
+            this.track.offsetHeight : this.track.offsetWidth;
+        
+        // Учитываем масштаб при расчете позиции ползунка
+        const thumbPosition = (position / (this.positions - 1)) * trackSize;
+        
+        if (this.orientation === 'vertical') {
+            this.thumb.style.top = `${thumbPosition}px`;
+            this.thumb.style.left = '';
+        } else {
+            this.thumb.style.left = `${thumbPosition}px`;
+            this.thumb.style.top = '';
+        }
+        
+        // Обновляем активную метку
+        this.labels.forEach((label, index) => {
+            label.classList.toggle('active', index === position);
+        });
+        
+        // Генерируем событие изменения
+        this.container.dispatchEvent(new CustomEvent('sliderChange', {
+            detail: { 
+                position: position,
+                label: this.labelsArray[position]
+            }
+        }));
+    }
+
+    getPosition() {
+        return this.currentPosition;
+    }
+
+    getCurrentLabel() {
+        return this.labelsArray[this.currentPosition];
+    }
+
+    // Метод для обновления масштаба (может быть вызван извне)
+    updateScale(newScale) {
+        this.currentScale = newScale;
+        // Пересчитываем текущую позицию с новым масштабом
+        this.setPosition(this.currentPosition);
+    }
+}
+// Функция для обновления отображения предлогов при смене падежа
+function updatePrewordsDisplay() {
+    const boneUpContainer = document.getElementById('boneUpContainer');
+    boneUpContainer.innerHTML = '';
+    //boneUpContainer.classList.add('prewords');
+    
+    const currentPrewords = prewords[casePosition];
+    createButtons(
+        currentPrewords,
+        boneUpContainer
+    );
+
+    updateFishColorByCase();
+}
+
+// Функция для обновления цвета в зависимости от падежа
+function updateFishColorByCase() {
+    const colors = caseColors[casePosition];
+    document.documentElement.style.setProperty('--current-fish-primary', colors.primary);
+    document.documentElement.style.setProperty('--current-fish-dark', colors.dark);
+    document.documentElement.style.setProperty('--current-fish-light', colors.light);
+    document.documentElement.style.setProperty('--current-fish-navy', colors.navy);
+}
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+// Кнопки
+//-----------------------------------------------------------------------------------
+// Функция для создания кнопок из массива
+function createButtons(array, startContainer, endContainer = null, oneElement = false, count = -1, random = false) {
+    startContainer.innerHTML = '';
+    
+    // Проверяем, является ли это массивом слов
+    const isWordsArray = array[0] && array[0][0] && Array.isArray(array[0][0][0]) && Array.isArray(array[0][0][0][0]);
+    
+    // Определяем текущую позицию слайдера числа
+    const countPosition = countSlider ? countSlider.getPosition() : 0;
+    
+    // Если указано ограничение по количеству и нужно случайное перемешивание
+    if (count > -1 && random) {
+        if (count < array.length) {
+            array = shuffleArray(array).slice(0, count);
+        } else {
+            array = shuffleArray(array).slice(0, array.length);
+        }
+    }
+    
+    array.forEach((item, index) => {
+        const button = document.createElement('button');
+        
+        // Определяем текст кнопки в зависимости от типа массива
+        if (isWordsArray) {
+            // Это массив слов в новом формате
+            // item[countPosition][0][0] - форма слова в именительном падеже для выбранного числа
+            button.textContent = item[countPosition][0][0][0];
+        } else if (Array.isArray(item[0]) || typeof item[0] === 'object') {
+            // Старый формат или другой сложный массив
+            button.textContent = item[0][countPosition];
+        } else {
+            // Простой массив строк
+            button.textContent = item;
+        }
+        
+        // Сохраняем индекс слова для дальнейшего использования
+        if (isWordsArray) {
+            button.dataset.wordIndex = index;
+        } else if (Array.isArray(item[0]) || typeof item[0] === 'object') {
+            button.dataset.wordIndex = index;
+        }
+        
+        if (endContainer) {
+            button.onclick = () => moveButton(button, startContainer, endContainer, oneElement);
+        }
+        
+        startContainer.appendChild(button);
+    });
+}
+
+// Функция для перемещения кнопок
+function moveButton(button, startContainer, endContainer, oneElement = false) {
+    if (button.parentElement === startContainer) {
+        document.getElementById('title').textContent = endwordSelect;
+        
+        if (oneElement && endContainer.children.length > 0) {
+            const existingButton = endContainer.children[0];
+            if (!startContainer.contains(existingButton)) {
+                startContainer.appendChild(existingButton);
+            }
+        }
+        
+        toggleElements([
+            ['dialog', false],
+            ['boneUpContainer', true],
+            ['endwordInput', true],
+            ['countSliderContainer', true],
+            ['caseSliderContainer', true],
+            ['checkAnswerButton', true],
+            ['hintButton', true],
+            ['backButton', true],
+            ['words', false]
+        ]);
+
+        if (!endContainer.contains(button)) {
+            endContainer.appendChild(button);
+        }
+    } else {
+        backButton();
+    }
+}
+
+// Функция для обновления всех кнопок слов
+function updateAllWordsButtons() {    
+    // Обновляем кнопки в основном контейнере
+    createButtons(
+        words,
+        document.getElementById('words'),
+        document.getElementById('spineContainer'),
+        true,
+        5,
+        true
+    );
+    
+    // Обновляем кнопку в spineContainer если она есть
+    if (spineContainer.children.length > 0) {
+        const spineButton = spineContainer.children[0];
+        const wordIndex = findWordIndex(spineButton.textContent)
+        
+        if (wordIndex !== undefined && words[wordIndex]) {
+            const countPosition = countSlider.getPosition();
+            // Обновляем текст кнопки в соответствии с выбранным числом
+            spineButton.textContent = words[wordIndex][countPosition][0][0][0];
+        }
+    }
+}
+
+// Функция для возвращения назад
+function backButton() {
+    const spineContainer = document.getElementById('spineContainer');
+    const wordsContainer = document.getElementById('words');
+    
+    while (spineContainer.children.length > 0) {
+        wordsContainer.appendChild(spineContainer.children[0]);
+    }
+
+    document.getElementById('title').textContent = wordsSelect;
+    document.getElementById('endwordInput').value = '';
+
+    // Возвращение обратно на именительный падеж
+    //if (caseSlider) { caseSlider.setPosition(0); }
+    // Возвращение обратно на единственное число
+    if (countSlider) { countSlider.setPosition(0); }
+
+    toggleElements([
+        ['dialog', false],
+        ['boneUpContainer', false],
+        ['endwordInput', false],
+        ['countSliderContainer', false],
+        ['caseSliderContainer', false],
+        ['checkAnswerButton', false],
+        ['hintButton', false],
+        ['backButton', false],
+        ['words', true]
+    ]);
+    updateAllWordsButtons();
+}
+
+// Функция для показа подсказки
+function hintButton() {
+    const dialogElement = document.getElementById('dialog');
+    dialogElement.classList.remove('success', 'error', 'info', 'hidden');
+    dialogElement.textContent = `${casewords[casePosition]} падеж\n${casewordsQuestions[casePosition]}`;
+    dialogElement.classList.add('info');
+}
+
+// Функция для проверки правильности
+function checkButton() {
+    const endwordInput = document.getElementById('endwordInput').value.trim().toLowerCase();
+    const caseSliderPosition = caseSlider.getPosition();
+    const countSliderPosition = countSlider.getPosition();
+    const dialogElement = document.getElementById('dialog');
+    const spineContainer = document.getElementById('spineContainer');
+    
+    // Убираем предыдущие классы
+    dialogElement.classList.remove('success', 'error', 'info', 'hidden');
+    
+    if (!endwordInput) {
+        dialogElement.textContent = checkAnswerNone;
+        dialogElement.classList.add('info');
+        return;
+    }
+
+    const spineButton = spineContainer.children[0];
+    const wordIndex = findWordIndex(spineButton.textContent);
+    
+    if (wordIndex === undefined || !words[wordIndex]) {
+        dialogElement.textContent = "Ошибка: слово не найдено";
+        dialogElement.classList.add('error');
+        return;
+    }
+    
+    // Получаем правильные окончания для выбранного слова, падежа и числа
+    // words[wordIndex] - выбранное слово
+    // words[wordIndex][countSliderPosition] - число слова (0 - 1)
+    // words[wordIndex][countSliderPosition][caseSliderPosition] - падеж слова
+    // words[wordIndex][countSliderPosition][caseSliderPosition][-] - количество вариантов написания 
+    // words[wordIndex][countSliderPosition][caseSliderPosition][-][1] - окончание
+    // words[wordIndex][countSliderPosition][caseSliderPosition][-][0] - слово с окончанием
+    const correctWordEndings = words[wordIndex][countSliderPosition][caseSliderPosition];
+    let correctWords = [];
+    let correctEndings = [];
+    correctWordEndings.forEach(e => {
+        correctWords.push(e[0]);
+        correctEndings.push(e[1]);
+    });
+
+    let randomPrewords = prewords[caseSliderPosition][Math.floor(Math.random() * prewords[caseSliderPosition].length)];
+    if (randomPrewords === '-') {randomPrewords = ''}
+    
+    let inputToCheck = (endwordInput.startsWith('--') ? endwordInput : 
+                   (endwordInput.length > 1 && endwordInput.startsWith('-') ? endwordInput.substring(1) : endwordInput)
+                ).toLowerCase();
+
+    let isCorrect = {
+        status: correctEndings.includes(inputToCheck),
+        index: correctEndings.indexOf(inputToCheck)
+    };
+
+
+    if (isCorrect.status) {
+        dialogElement.textContent = randomPrewords + " " +  correctWords[isCorrect.index];
+        dialogElement.classList.add('success');
+    } else {
+        dialogElement.textContent = checkAnswerFalse;
+        dialogElement.classList.add('error');
+    }
+    
+    const inputElement = document.getElementById('endwordInput');
+    inputElement.style.borderColor = isCorrect ? "#27ae60" : "#e74c3c";
+    
+    setTimeout(() => {
+        inputElement.style.borderColor = "#3498db";
+    }, 2000);
+}
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+// Utils
+//-----------------------------------------------------------------------------------
+// Скрытие элементов
+function toggleElements(elementIds) {
+    elementIds.forEach( (elementId) => {
+        const element = document.getElementById(elementId[0]);
+        if (element) {
+            if (elementId[1]) {
+                element.classList.remove('hidden');
+            } else {
+                element.classList.add('hidden');
+            }
+        } else {
+            console.log(`${element} with id not found!`)
+        }
+    });
+}
+
+// Функция для перемешивания массива
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+// Функция для поиска индекса по слову
+function findWordIndex(word) {
+    for (let i = 0; i < words.length; i++) {
+        if (words[i][0][0][0][0] === word || words[i][1][0][0][0] === word) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Адаптивный размер
+class ContainerScaler {
+    constructor() {
+        this.scale = 1;
+        this.minScale = 0.1;
+        this.maxScale = 2.0;
+        this.baseElementWidth = 1155;
+        
+        this.container = document.querySelector('.game-container');
+        
+        this.init();
+        this.bindEvents();
+    }
+    
+    init() {
+        this.calculateScale();
+        this.updateScale();
+    }
+    
+    calculateScale() {
+        const screenSize = document.documentElement.offsetWidth;
+        const sizeRatio = this.baseElementWidth / screenSize;
+        
+        if (sizeRatio > 1) {
+            this.scale = Math.max(1 / sizeRatio - 0.05, this.minScale);
+        } else {
+            this.scale = Math.min(1 + (1 - sizeRatio), this.maxScale);
+        }
+        
+    }
+    
+    updateScale() {
+        this.container.style.transform = `scale(${this.scale})`;
+    }
+    
+    bindEvents() {
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            this.calculateScale();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.updateScale();
+                this.notifySliders();
+            }, 500);
+        });
+        window.addEventListener('orientationchange', () => { 
+            this.calculateScale();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.updateScale();
+                this.notifySliders();
+            }, 500);
+        });
+    }
+    
+    // Получение текущего масштаба
+    getScale() {
+        return this.scale;
+    }
+    
+    // Оповещения слайдеров об изменении масштаба
+    notifySliders() {
+        window.dispatchEvent(new CustomEvent('scaleChange', {
+            detail: { scale: this.scale }
+        }));
+    }
+}
+
+// Чтение файла с меню выбора
+class FileDragDrop {
+    constructor(targetElementId, callback = null) {
+        this.dropArea = document.getElementById(targetElementId);
+        this.callback = callback; // Может быть функцией или объектом
+        this.fileData = null;
+        this.menuVisible = false;
+        
+        if (!this.dropArea) {
+            console.error(`Элемент с ID "${targetElementId}" не найден`);
+            return;
+        }
+        
+        // Константы текстов (могут быть переопределены через setTexts())
+        this.texts = {
+            default: "",
+            success: "",
+            error: "",
+            loading: "",
+            download: ""
+        };
+        
+        // SVG иконки по умолчанию
+        this.svgBackgrounds = {
+            default: "var(--drop-area-default-svg)",      // синий
+            add: "var(--drop-area-add-svg)",              // синий
+            error: "var(--drop-area-error-svg)",          // красный
+            success: "var(--drop-area-success-svg)",      // зеленый
+            download: "var(--drop-area-success-svg)"      // зеленый
+        };
+        
+        // Текущая операция
+        this.currentOperation = 'default';
+        
+        // Меню для выбора действий
+        this.createMenu();
+        
+        this.init();
+    }
+    
+    init() {        
+        // Устанавливаем дефолтное состояние (синяя иконка)
+        this.setDefaultState();
+        
+        // Обработчики событий
+        this.setupEventListeners();
+        
+        // Обработчик кликов вне меню
+        this.boundHideMenu = this.hideMenu.bind(this);
+        document.addEventListener('click', this.boundHideMenu);
+    }
+    
+    createMenu() {
+        // Создаем элемент меню
+        this.menu = document.createElement('div');
+        this.menu.className = 'file-drop-menu';
+        
+        // Получаем шаблон из HTML
+        const menuTemplate = document.getElementById('file-drop-menu-template');
+        if (menuTemplate && menuTemplate.content) {
+            // Клонируем содержимое шаблона
+            const templateContent = menuTemplate.content.cloneNode(true);
+            this.menu.appendChild(templateContent);
+        } else {
+            // Резервный вариант
+            this.menu.innerHTML = `
+                <div class="menu-item upload-btn">
+                    📤 Загрузить файл
+                </div>
+                <div class="menu-item download-btn">
+                    📥 Скачать файл
+                </div>
+                <div class="menu-item reset-btn">
+                    ❌ Сбросить
+                </div>
+            `;
+        }
+        
+        // Обработчики для элементов меню
+        this.setupMenuEventListeners();
+    }
+    
+    setupMenuEventListeners() {
+        // Используем делегирование событий для меню
+        this.menu.addEventListener('click', (e) => {
+            e.stopPropagation(); // Останавливаем всплытие
+            
+            if (e.target.closest('.upload-btn')) {
+                // При нажатии на "Загрузить файл" - синяя иконка "add"
+                this.currentOperation = 'add';
+                this.setOperationState('add');
+                this.showFileInput();
+                this.hideMenu();
+            } else if (e.target.closest('.download-btn')) {
+                // При нажатии на "Скачать файл" - зеленая иконка "download" (успешная операция)
+                this.currentOperation = 'download';
+                this.setOperationState('download');
+                this.triggerDownload();
+                this.hideMenu();
+            } else if (e.target.closest('.reset-btn')) {
+                // При нажатии на "Сбросить" - возвращаем дефолтную синюю иконку
+                this.currentOperation = 'default';
+                this.clear();
+                this.hideMenu();
+            }
+        });
+    }
+    
+    showMenu() {
+        this.menu.style.display = 'block';
+        this.menuVisible = true;
+        this.dropArea.classList.add('menu-open');
+    }
+    
+    hideMenu(e) {
+        // Если передан event, проверяем клик вне меню
+        if (e) {
+            // Если клик внутри dropArea или меню, не скрываем
+            if (this.dropArea.contains(e.target) || 
+                (this.menu && this.menu.contains(e.target))) {
+                return;
+            }
+        }
+        
+        this.menu.style.display = 'none';
+        this.menuVisible = false;
+        this.dropArea.classList.remove('menu-open');
+    }
+    
+    toggleMenu(e) {
+        if (e) {
+            e.stopPropagation();
+        }
+        
+        if (this.menuVisible) {
+            this.hideMenu();
+        } else {
+            this.showMenu();
+        }
+    }
+    
+    showFileInput() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.txt,.csv,.json';
+        input.style.cssText = `
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+        `;
+        
+        document.body.appendChild(input);
+        
+        const handleFileSelect = (e) => {
+            if (e.target.files.length > 0) {
+                this.handleDrop(e.target.files);
+            } else {
+                // Если отменили выбор файла - возвращаем дефолт
+                this.setDefaultState();
+            }
+            document.body.removeChild(input);
+            input.removeEventListener('change', handleFileSelect);
+        };
+        
+        input.addEventListener('change', handleFileSelect);
+        input.click();
+    }
+    
+    setupEventListeners() {
+        // Drag over
+        this.dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            this.dropArea.classList.add('dragover');
+            this.currentOperation = 'add';
+        });
+        
+        // Drag leave
+        this.dropArea.addEventListener('dragleave', () => {
+            this.dropArea.classList.remove('dragover');
+            if (!this.menuVisible) {
+                this.setDefaultState();
+            }
+        });
+        
+        // Drop
+        this.dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            this.dropArea.classList.remove('dragover');
+            this.currentOperation = 'add';
+            this.setOperationState('add');
+            this.handleDrop(e.dataTransfer.files);
+        });
+        
+        // Клик для открытия меню
+        this.dropArea.addEventListener('click', (e) => {
+            this.toggleMenu(e);
+        });
+    }
+    
+    async handleDrop(files) {
+        if (!files || files.length === 0) return;
+        
+        const file = files[0];
+        
+        // Проверяем, что это текстовый файл
+        if (!this.isTextFile(file)) {
+            this.showError();
+            return;
+        }
+        
+        try {
+            // Обновляем UI на состояние загрузки (синяя иконка)
+            this.setLoadingState();
+            
+            // Читаем файл
+            const content = await this.readFile(file);
+            
+            // Сохраняем данные
+            this.fileData = {
+                content: content,
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                lastModified: file.lastModified,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Успешное состояние - зеленая иконка
+            this.setSuccessState();
+            
+            // Вызываем колбэк в зависимости от его типа
+            if (this.callback) {
+                if (typeof this.callback === 'function') {
+                    // Старый стиль: функция callback
+                    this.callback(this.fileData);
+                } else if (typeof this.callback.onFileLoad === 'function') {
+                    // Новый стиль: объект с методом onFileLoad
+                    this.callback.onFileLoad(this.fileData);
+                }
+            }
+            
+            // Автоматически возвращаем к исходному состоянию через 2 секунды
+            setTimeout(() => {
+                if (this.dropArea.classList.contains('success')) {
+                    this.setDefaultState();
+                }
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Ошибка чтения файла:', error);
+            this.showError();
+            
+            // Вызываем колбэк ошибки если есть
+            if (this.callback && typeof this.callback.onError === 'function') {
+                this.callback.onError(error);
+            }
+        }
+    }
+    
+    // ========== ПУБЛИЧНЫЕ МЕТОДЫ ДЛЯ УПРАВЛЕНИЯ СОСТОЯНИЯМИ ==========
+    
+    // Установить состояние по умолчанию (синяя иконка)
+    setDefaultState(customText = null) {
+        this.dropArea.classList.remove('success', 'error', 'dragover', 'menu-open');
+        this.hideMenu();
+        this.currentOperation = 'default';
+        
+        // Устанавливаем дефолтную синюю SVG
+        this.dropArea.style.backgroundImage = this.svgBackgrounds.default;
+        
+        // Добавляем меню обратно (если оно было удалено)
+        if (this.menu && !this.menu.parentNode) {
+            this.dropArea.appendChild(this.menu);
+        }
+        return this;
+    }
+    
+    // Установить состояние успеха (зеленая иконка)
+    setSuccessState(customText = null) {
+        this.dropArea.classList.add('success');
+        this.dropArea.classList.remove('error', 'dragover', 'menu-open');
+        this.hideMenu();
+        
+        // Устанавливаем зеленую SVG для успеха
+        this.dropArea.style.backgroundImage = this.svgBackgrounds.success;
+        
+        // Добавляем меню обратно (если оно было удалено)
+        if (this.menu && !this.menu.parentNode) {
+            this.dropArea.appendChild(this.menu);
+        }
+        return this;
+    }
+    
+    // Установить состояние ошибки (красная иконка)
+    setErrorState(customText = null) {
+        this.dropArea.classList.add('error');
+        this.dropArea.classList.remove('success', 'dragover', 'menu-open');
+        this.hideMenu();
+        
+        // Устанавливаем красную SVG для ошибки
+        this.dropArea.style.backgroundImage = this.svgBackgrounds.error;
+        
+        // Добавляем меню обратно (если оно было удалено)
+        if (this.menu && !this.menu.parentNode) {
+            this.dropArea.appendChild(this.menu);
+        }
+        
+        // Автоматическое возвращение к дефолтной синей иконке через 3 секунды
+        setTimeout(() => {
+            if (this.dropArea.classList.contains('error')) {
+                this.setDefaultState();
+            }
+        }, 3000);
+        
+        return this;
+    }
+    
+    // Установить состояние операции
+    setOperationState(operation, customText = null) {
+        this.dropArea.classList.remove('success', 'error', 'menu-open');
+        this.hideMenu();
+        this.currentOperation = operation;
+        
+        // Устанавливаем соответствующую SVG
+        // download использует success (зеленый), add использует add (синий)
+        this.dropArea.style.backgroundImage = this.svgBackgrounds[operation] || this.svgBackgrounds.default;
+        
+        // Добавляем классы в зависимости от операции
+        if (operation === 'download') {
+            this.dropArea.classList.add('success'); // зеленая рамка для скачивания
+        } else {
+            this.dropArea.classList.remove('success');
+        }
+        
+        // Добавляем меню обратно (если оно было удалено)
+        if (this.menu && !this.menu.parentNode) {
+            this.dropArea.appendChild(this.menu);
+        }
+        return this;
+    }
+    
+    // Установить состояние загрузки
+    setLoadingState(customText = null) {
+        this.dropArea.classList.remove('success', 'error', 'menu-open');
+        this.hideMenu();
+        
+        // Для загрузки используем иконку в зависимости от операции
+        const bg = this.currentOperation === 'add' 
+            ? this.svgBackgrounds.add 
+            : this.svgBackgrounds.default;
+        this.dropArea.style.backgroundImage = bg;
+        
+        // Добавляем меню обратно (если оно было удалено)
+        if (this.menu && !this.menu.parentNode) {
+            this.dropArea.appendChild(this.menu);
+        }
+        return this;
+    }
+    
+    // Установить кастомные тексты
+    setTexts(textsObj) {
+        this.texts = { ...this.texts, ...textsObj };
+        return this;
+    }
+    
+    // Установить кастомные SVG backgrounds
+    setSvgBackgrounds(svgObj) {
+        this.svgBackgrounds = { ...this.svgBackgrounds, ...svgObj };
+        return this;
+    }
+    
+    // Установить кастомный контент (HTML или текст)
+    setCustomContent(content) {
+        if (typeof content === 'object' && content.html) {
+            this.dropArea.innerHTML = content.html;
+        } else {
+            this.dropArea.innerHTML = content;
+        }
+        // Добавляем меню обратно (если оно было удалено)
+        if (this.menu && !this.menu.parentNode) {
+            this.dropArea.appendChild(this.menu);
+        }
+        return this;
+    }
+    
+    // ========== НОВЫЕ МЕТОДЫ ==========
+    
+    // Метод для вызова скачивания
+    triggerDownload() {
+        // Сразу показываем зеленую иконку скачивания
+        this.setOperationState('download');
+        
+        if (this.callback) {
+            if (typeof this.callback === 'function') {
+                // Для обратной совместимости: если callback - функция
+                if (this.fileData) {
+                    downloadFile(this.fileData.content, this.fileData.name, this.fileData.type);
+                }
+            } else if (typeof this.callback.onDownload === 'function') {
+                // Новый стиль: объект с методом onDownload
+                this.callback.onDownload();
+            } else if (typeof this.callback.onDownloadRequest === 'function') {
+                // Альтернативный метод
+                this.callback.onDownloadRequest();
+            }
+        } else if (this.fileData) {
+            // Если нет callback, но есть данные файла
+            downloadFile(this.fileData.content, this.fileData.name, this.fileData.type);
+        }
+        
+        // Возвращаем к дефолтной иконке через 2 секунды
+        setTimeout(() => {
+            this.setDefaultState();
+        }, 2000);
+    }
+    
+    // ========== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ==========
+    
+    isTextFile(file) {
+        const textTypes = [
+            'text/plain',
+            'text/csv',
+            'application/json',
+            'application/xml'
+        ];
+        
+        const textExtensions = ['.txt', '.csv', '.json', '.xml', '.md'];
+        const extension = '.' + file.name.split('.').pop().toLowerCase();
+        
+        return textTypes.includes(file.type) || 
+               textExtensions.includes(extension) ||
+               file.type.startsWith('text/');
+    }
+    
+    readFile(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = () => reject(new Error('Не удалось прочитать файл'));
+            reader.readAsText(file, 'UTF-8');
+        });
+    }
+    
+    showError() {
+        this.setErrorState();
+    }
+    
+    // ========== GETTERS ==========
+    
+    // Получить данные файла
+    getFileData() {
+        return this.fileData;
+    }
+    
+    // Получить текущее состояние
+    getCurrentState() {
+        if (this.dropArea.classList.contains('success')) return 'success';
+        if (this.dropArea.classList.contains('error')) return 'error';
+        if (this.dropArea.classList.contains('dragover')) return 'dragover';
+        if (this.dropArea.classList.contains('menu-open')) return 'menu-open';
+        return this.currentOperation;
+    }
+    
+    // ========== CLEANUP ==========
+    
+    // Очистить данные и сбросить состояние
+    clear() {
+        this.fileData = null;
+        this.currentOperation = 'default';
+        this.setDefaultState();
+        
+        // Вызываем колбэк если есть
+        if (this.callback) {
+            if (typeof this.callback === 'function') {
+                // Для обратной совместимости
+            } else if (typeof this.callback.onClear === 'function') {
+                this.callback.onClear();
+            }
+        }
+        return this;
+    }
+    
+    // Уничтожить экземпляр (очистить все обработчики)
+    destroy() {
+        if (this.menu && this.menu.parentNode) {
+            this.menu.parentNode.removeChild(this.menu);
+        }
+        this.dropArea.innerHTML = '';
+        this.dropArea.style.backgroundImage = '';
+        this.dropArea.classList.remove('success', 'error', 'dragover', 'menu-open');
+        this.fileData = null;
+        this.callback = null;
+        document.removeEventListener('click', this.boundHideMenu);
+    }
+}
+
+// Функция для скачивания файла
+function downloadFile(content, filename, fileType = 'text/csv;charset=utf-8') {
+    let processedContent = content;
+    
+    if (filename.toLowerCase().endsWith('.csv') || fileType.includes('csv')) {
+        const BOM = '\uFEFF';
+        processedContent = BOM + content;
+        
+        fileType = 'text/csv;charset=utf-8';
+        
+        if (!processedContent.endsWith('\n')) {
+            processedContent += '\n';
+        }
+    }
+    
+    const blob = new Blob([processedContent], { type: fileType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    setTimeout(() => {
+        URL.revokeObjectURL(url);
+    }, 100);
+}
+
+// Парсер из csv в массив
+function csv_to_words(file_content) {
+    let result = [];
+    const lines = file_content.split('\n');
+    let hasValidLines = false;
+    let totalWords = 0;
+    let totalForms = 0;
+    
+    lines.forEach((line) => {
+        // Проверяем, что строка содержит скобки И точку с запятой (чтобы исключить заголовки)
+        if (line.includes('(') && line.includes(')') && line.includes(';')) {
+            hasValidLines = true;
+            
+            // Новый макет: слово → число → падеж → [полная_форма, окончание]
+            let wordEntry = [];
+            
+            // Создаем структуру для двух чисел (единственное и множественное)
+            for (let numberType = 0; numberType < 2; numberType++) {
+                let numberArray = [];
+                
+                // Для каждого падежа (6 падежей)
+                for (let caseIndex = 0; caseIndex < 6; caseIndex++) {
+                    let caseArray = [];
+                    numberArray.push(caseArray);
+                }
+                
+                wordEntry.push(numberArray);
+            }
+            
+            const words_line = line.split(';');
+            
+            words_line.forEach((words, wordsIndex) => {
+                // Пропускаем пустые ячейки
+                if (!words) return;
+                
+                // Определяем, к какому числу и падежу относится слово
+                let numberType = wordsIndex > 5 ? 1 : 0; // 0 - единственное, 1 - множественное
+                let caseIndex = wordsIndex % 6; // 0-5 для каждого числа
+                
+                let word_line = words.match(/[\wа-яА-ЯёЁ]+(?:\([\wа-яА-ЯёЁ]*\))?/g) || [];
+                if (!word_line || word_line.length === 0) return;
+                
+                word_line.forEach((word) => {
+                    if (word.includes('(') && word.includes(')')) {
+                        const mainword = word.split('(')[0];
+                        const endwordMatch = word.match(/\((.*?)\)/);
+                        let endword = endwordMatch ? endwordMatch[1] : '';
+                        
+                        // Сохраняем в формате: [полная_форма, окончание]
+                        wordEntry[numberType][caseIndex].push([
+                            mainword + endword,
+                            endword === '' ? '-' : endword
+                        ]);
+                        
+                        totalForms++;
+                    }
+                });
+            });
+            
+            result.push(wordEntry);
+            totalWords++;
+        }
+    });
+    
+    // Если были валидные строки, возвращаем результат и true
+    if (hasValidLines) {
+        return {
+            data: result,
+            changed: true,
+            totalWords: totalWords,
+            totalForms: totalForms,
+            totalLines: result.length
+        };
+    } else {
+        // Возвращаем дефолтное значение и false
+        return {
+            data: [],
+            changed: false,
+            totalWords: 0,
+            totalForms: 0,
+            totalLines: 0
+        };
+    }
+}
+
+// Парсер из массива обратно в CSV
+function words_to_csv(data) {
+    const lines = [];
+    
+    // Добавляем заголовок
+    const header1 = [
+        'единственное число', '', '', '', '', '',
+        'множественное число', '', '', '', '', ''
+    ];
+    const header2 = [
+        'и', 'р', 'д', 'в', 'т', 'п',
+        'и', 'р', 'д', 'в', 'т', 'п'
+    ];
+    
+    lines.push(header1.join(';'));
+    lines.push(header2.join(';'));
+    
+    // Обрабатываем каждую запись
+    data.forEach((wordEntry, wordsIndex) => {
+        let cellParts = [];
+        const lineParts = [];
+        for (let i = 0; i < 12; i++) {
+            let numberType = i > 5 ? 1 : 0
+
+            wordEntry[numberType][i % 6].forEach(cellWord => {
+                const fullWord = cellWord[0] || '';
+                const ending = cellWord[1] || '-';
+
+                if (fullWord) {
+                    if (ending === '-') {
+                        cellParts.push(`${fullWord}()`);
+                    } else {
+                        // Вычисляем основу слова
+                        const baseWord = fullWord.slice(0, -ending.length);
+                        cellParts.push(`${baseWord}(${ending})`);
+                    }
+                } else {
+                    cellParts.push('');
+                }
+            });
+            lineParts.push(cellParts.join(', '));
+            cellParts = [];
+        }
+        
+        lines.push(lineParts.join(';'));
+    });
+    
+    return lines.join('\n');
+}
+//-----------------------------------------------------------------------------------  
+</script> 
+</body>
+</html>
