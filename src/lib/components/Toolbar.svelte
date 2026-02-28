@@ -162,7 +162,7 @@
                 showSearchResults = true;
             } else {
                 // Если результатов нет, переходим на страницу поиска
-                window.location.href = `${base}/search?q=${encodeURIComponent(searchQuery)}`;
+                window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
                 closeMenu();
                 isSearchOpen = false;
             }
@@ -170,7 +170,7 @@
     }
     
     function handleResultClick(item) {
-        window.location.href = `${base}${item.href}`;
+        window.location.href = `${item.href}`;
         closeMenu();
         isSearchOpen = false;
         searchQuery = '';
