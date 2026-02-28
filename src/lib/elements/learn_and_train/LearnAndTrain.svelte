@@ -1,4 +1,5 @@
 <script>
+    import { base } from '$app/paths';
     import Container from '$lib/components/Container.svelte';
     import Spacer from '$lib/components/Spacer.svelte';
     import Title from '$lib/components/Title.svelte';
@@ -48,12 +49,12 @@
                         <Container orientation="horizontal" content="center">
                             <Button 
                                 title={card.button1.title}
-                                href={card.button1.href}
+                                href={base + card.button1.href}
                             />
                             <Spacer axis="horizontal" size="5rem" thickness="3px"/>
                             <Button 
                                 title={card.button2.title}
-                                href={card.button2.href}
+                                href={base + card.button2.href}
                             />
                         </Container>
                     </Container>
