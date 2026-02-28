@@ -70,7 +70,7 @@
                         on:click={(e) => handleArrowClick(e, index)}
                         aria-label="Открыть подменю"
                     >
-                        <span class="menu-arrow">{openDropdown === index ? '▼' : '▶'}</span>
+                        <span class="menu-arrow">{openDropdown === index ? '▼' : '▼'}</span>
                     </button>
                 </div>
                 

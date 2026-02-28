@@ -10,7 +10,7 @@
     import {style} from '$lib/utils/texts'
 
     /* Текстовые переменные */
-    const titleTexts = "Что такое предлоги в русском языке";
+    const titleTexts = 'Что такое предлоги в русском языке';
     const aboutPrewords = `${style('Предлоги', 'b')} - это служебная часть речи, которая служит для связи существительного, местоимения, числительного и выражает отношения между словами в словосочетании, предложении. Предлоги могут обозначать отношения между действием и объектом (смотреть на небо), объектом и объектом (лодка с парусом), признаком и объектом (готовый на самопожертвование).`.replace(/\((.*?)\)/g, function(match) {
         return style(match, 'i')
     });
@@ -18,16 +18,11 @@
     const titleAboutPrewords = 'Виды предлогов';
     const aboutAllPrewords = `Предлоги ставят перед именами существительными, числительными и местоимениями в разных падежах. При этом со словами в именительном падеже эту часть речи не употребляют. Предлоги разделяют на 3 разряда: по происхождению, по составу и по значению:`;
     
-    const aboutAllPrewordsList0 = [
-        `По значению:`,
-        `По составу:`,
-        `По происхождению:`
-    ].map(line => {
-        return style(line, 'b')
-    });
-    
-    const aboutAllPrewordsList1 = [
-        `пространственные (указывают на место) - к, в, на, под, из-за, перед, около, вокруг;
+    const aboutAllPrewordsList = [
+style(`По значению:`, 'b'),
+
+style(
+`пространственные (указывают на место) - к, в, на, под, из-за, перед, около, вокруг;
 временные (указывают на время) - к, до, с, через, около;
 причинные (указывают на причину) - по, от, из-за, ввиду, вследствие;
 целевые (указывают на цель) - по, для, ради;
@@ -35,45 +30,31 @@
 уступительные (указывают на противоречие одного события другому) - вопреки, несмотря на;
 объектные (указывают на предмет, на который направлено действие) - о, с, на, по, об, про, насчёт;
 определительные (указывают на признак предмета) - в, с, из, по, на, без.`,
+'i', [], [/-/, null], [';', '.']).split('\n'),
 
-        `простые предлоги, состоящие из одного слова (из, с, в, на, под);
-сложные предлоги, которые состоят из двух слов, написанных через дефис (из-за, из-под);
-составные предлоги, которые состоят из двух и более слов, написанных раздельно (в течение, в продолжение, несмотря на).`,
+style(`По составу:`, 'b'),
 
-        `непроизводные (первообразные), которые возникли ещё в древности и в современном языке ни с какими частями речи не соотносятся - за, из, с, к и другие;
-производные, которые образованы в более поздний период от самостоятельных частей. По этому признаку их разделяют на:`
-    ].map(block => {
-        return block.split('\n').map(line => {
-            return line.replace(/- (.+)/g, (match, content) => {
-                const cleanContent = content.replace(/[.;]$/, '');
-                const punctuation = content.match(/[.;]$/)?.[0] || '';
-                return `- ${style(cleanContent, 'i')}${punctuation}`;
-            });
-        });
-    });
+style(
+`простые предлоги, состоящие из одного слова - из, с, в, на, под;
+сложные предлоги, которые состоят из двух слов, написанных через дефис - из-за, из-под;
+составные предлоги, которые состоят из двух и более слов, написанных раздельно - в течение, в продолжение, несмотря на.`,
+'i', [], [/-/, null], [';', '.']).split('\n'),
 
-    const aboutAllPrewordsList2 = [
-null,
+style(`По происхождению:`, 'b'),
+
+style(
+`непроизводные (первообразные), которые возникли ещё в древности и в современном языке ни с какими частями речи не соотносятся - за, из, с, к и другие;
+производные, которые образованы в более поздний период от самостоятельных частей. По этому признаку их разделяют на:`,
+'i', [], [/-/, null], [';', '.']).split('\n'),
+[
+style(
 `отымённые, которые произошли от существительных - в течение, по мере, вследствие;
 отглагольные, которые произошли от деепричастий - благодаря, смотря;
-наречные, которые произошли от наречий - вокруг, около, мимо.`
-]
-.map(line => {
-    if (line != null) {
-    return line.replace(/- (.+)/g, (match, content) => {
-        const cleanContent = content.replace(/[.;]$/, '');
-        const punctuation = content.match(/[.;]$/)?.[0] || '';
-        return `- ${style(cleanContent, 'i')}${punctuation}`;
-    })};
-});
+наречные, которые произошли от наречий - вокруг, около, мимо.`,
+'i', [], [/-/, null], [';', '.']).split('\n'),
+]];
 
-    // Формируем правильную структуру для List
-const listStructure = [
-    aboutAllPrewordsList0,
-    aboutAllPrewordsList1,
-    [null, null, aboutAllPrewordsList2]
-];
-
+    const titleImage = 'Иллюстрация пространственных предлогов';
 </script>
 
 <div class="center">
@@ -86,23 +67,29 @@ const listStructure = [
             classListDescription="left"
             colorDescription="var(--color-texts-main-dark)"
         />
-
         <Spacer axis="vertical" size="3rem"/>
         
         <TextBlock 
             title={titleAboutPrewords}
             description={aboutAllPrewords}
-            classListTitle="left"
+            classListTitle="center"
             classListDescription="left"
-            colortTitle="var(--color-texts-main-dark)"
+            colorTitle="var(--color-texts-main-dark)"
             colorDescription="var(--color-texts-main-dark)"
         />
+        <Spacer axis="vertical" size="1rem"/>
 
         <List 
-            items={listStructure}
+            items={aboutAllPrewordsList}
+            classListTitle="center"
+            colorTitle="var(--color-texts-main-dark)"
             type={['decimal', 'square', 'disc']}
             color="var(--color-texts-main-dark)"
-            multiLevel={true}
         />
+        <Spacer axis="vertical" size="3rem"/>
+
+        <Title title={titleImage}/>
+        <Spacer axis="vertical" size="5rem"/>
+        <Image page='learn_and_train/learn/prewords' src={'prewords_example.png'}/>
     </Container>
 </div>

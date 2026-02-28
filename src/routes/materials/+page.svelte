@@ -1,8 +1,28 @@
 <script>
-    import Container from '$lib/components/Container.svelte';
+    import Toolbar from '$lib/components/Toolbar.svelte';
+    import Hero from '$lib/components/Hero.svelte';
+    import Materials from '$lib/elements/materials/Materials.svelte';
+    import Footer from '$lib/components/Footer.svelte';
+    import Spacer from '$lib/components/Spacer.svelte';
 </script>
 
-<Container padding="2rem">
-    <h1>Материалы</h1>
-    <p>Содержимое раздела Материалы</p>
-</Container>
+<Toolbar 
+    logoSrc="/icons/favicon.png"
+    backgroundColor="var(--color-background-button)"
+    textColor="var(--color-texts-main-light)"
+    transparentUntilScroll={false}
+/>
+
+<!-- Hero на весь экран -->
+<Hero 
+    imageSrc="/imgs/hero-bg.png"
+    title="Материалы"
+/>
+
+<!-- Остальной контент -->
+<main>
+    <Spacer axis="vertical" size="3rem"/>
+    <Materials/>
+    <Spacer axis="vertical" size="3rem"/>
+    <Footer/>
+</main>

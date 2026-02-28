@@ -42,6 +42,7 @@
     color: var(--color-texts-main);
     font-weight: 700;
     display: inline-table;
+    padding-bottom: 10px;
   }
 
   .description {

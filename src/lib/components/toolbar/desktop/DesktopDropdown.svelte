@@ -69,7 +69,7 @@
                         on:click={(e) => handleArrowClick(e, index)}
                         aria-label="Открыть подменю"
                     >
-                        <span class="submenu-arrow">▶</span>
+                        <span class="submenu-arrow">▼</span>
                     </button>
                 </div>
                 

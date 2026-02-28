@@ -15,18 +15,18 @@
             },
             button2: {
                 title: 'Тренажер',
-                href: '/train_prewords'
+                href: '/learn_and_train/train/prewords'
             },
             img: 'prewords.png'
         },
         {
             button1: {
                 title: 'Учим падежи',
-                href: '/learn_cases'
+                href: '/learn_and_train/learn/cases'
             },
             button2: {
                 title: 'Тренажер',
-                href: '/train_cases'
+                href: '/learn_and_train/train/cases'
             },
             img: 'case.png'
         }

@@ -29,7 +29,7 @@
         {inputId}
         type="text" 
         class="search-input"
-        placeholder="Поиск..."
+        placeholder="Поиск по сайту..."
         value={query}
         on:input={handleInput}
         style="

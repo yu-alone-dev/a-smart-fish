@@ -22,30 +22,36 @@
                     href: '/learn_and_train/learn/prewords',
                     icon: '',
                     dropdown: [
-                        { title: 'Тренажер', href: '/learn/prepositions/trainer', icon: '' }
+                        {
+                            title: 'Тренажер',
+                            href: '/learn_and_train/train/prewords',
+                            icon: ''
+                        }
                     ]
                 },
                 { 
-                    title: 'Падежи', 
+                    title: 'Падежи',
+                    href: '/learn_and_train/learn/cases', 
                     icon: '',
                     dropdown: [
-                        { title: 'Именительный падеж', href: '/learn/cases/nominative', icon: '' },
-                        { title: 'Родительный падеж', href: '/learn/cases/genitive', icon: '' },
-                        { title: 'Дательный падеж', href: '/learn/cases/dative', icon: '' },
-                        { title: 'Винительный падеж', href: '/learn/cases/accusative', icon: '' },
-                        { title: 'Творительный падеж', href: '/learn/cases/instrumental', icon: '' },
-                        { title: 'Предложный падеж', href: '/learn/cases/prepositional', icon: '' },
-                        { title: 'Тренажер', href: '/learn/cases/trainer', icon: '' }
+                        { title: 'Именительный падеж', href: '/learn_and_train/train/tests?test_num=1', icon: '' },
+                        { title: 'Родительный падеж', href: '/learn_and_train/train/tests?test_num=2', icon: '' },
+                        { title: 'Дательный падеж', href: '/learn_and_train/train/tests?test_num=3', icon: '' },
+                        { title: 'Винительный падеж', href: '/learn_and_train/train/tests?test_num=4', icon: '' },
+                        { title: 'Творительный падеж', href: '/learn_and_train/train/tests?test_num=5', icon: '' },
+                        { title: 'Предложный падеж', href: '/learn_and_train/train/tests?test_num=6', icon: '' },
+                        { title: 'Тренажер', href: '/learn_and_train/train/cases', icon: '' }
                     ]
                 }
             ]
         },
         { 
-            title: 'Материалы', 
+            title: 'Материалы',
+            href: '/materials',
             icon: '',
             dropdown: [
                 { title: 'Вспомогательные карточки', href: '/materials/cards', icon: '' },
-                { title: 'Интерактивные презентации', href: '/materials/presentations', icon: '' },
+                { title: 'Интерактивные презентации', href: '/materials/docs', icon: '' },
                 { title: 'Тесты и задания', href: '/materials/tests', icon: '' }
             ]
         },
@@ -71,6 +77,8 @@
     let isSearchOpen = false;
     let isScrolled = false;
     let searchQuery = '';
+    let searchResults = [];
+    let showSearchResults = false;
     
     onMount(() => {
         const handleScroll = () => {
@@ -83,6 +91,9 @@
     
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+            showSearchResults = false;
+        }
     }
     
     function toggleSearch() {
@@ -91,27 +102,92 @@
             setTimeout(() => {
                 document.getElementById('search-input-desktop')?.focus();
             }, 100);
+        } else {
+            showSearchResults = false;
+            searchQuery = '';
+        }
+    }
+    
+    // Рекурсивная функция для поиска по items
+    function searchInItems(items, query) {
+        if (!query.trim()) return [];
+        
+        const results = [];
+        const searchTerm = query.toLowerCase().trim();
+        
+        function traverse(itemsArray, path = []) {
+            for (const item of itemsArray) {
+                // Проверяем текущий элемент
+                const titleMatch = item.title && item.title.toLowerCase().includes(searchTerm);
+                const hrefMatch = item.href && item.href.toLowerCase().includes(searchTerm);
+                
+                if (titleMatch || hrefMatch) {
+                    results.push({
+                        ...item,
+                        matchPath: [...path, item.title],
+                        matchReason: titleMatch ? 'title' : 'href'
+                    });
+                }
+                
+                // Рекурсивно проверяем вложенные элементы
+                if (item.dropdown && item.dropdown.length > 0) {
+                    traverse(item.dropdown, [...path, item.title]);
+                }
+            }
+        }
+        
+        traverse(items);
+        return results;
+    }
+    
+    // ИСПРАВЛЕНИЕ: получаем значение из события
+    function updateSearchQuery(event) {
+        // event.detail содержит значение, которое мы отправили из SearchForm
+        searchQuery = event.detail;
+        
+        if (searchQuery.trim().length >= 2) {
+            searchResults = searchInItems(items, searchQuery);
+            showSearchResults = true;
+        } else {
+            searchResults = [];
+            showSearchResults = false;
         }
     }
     
     function handleSearch(e) {
         e.preventDefault();
         if (searchQuery.trim()) {
-            window.location.href = `${base}/search?q=${encodeURIComponent(searchQuery)}`;
-            closeMenu();
-            isSearchOpen = false; // закрываем поиск после отправки
+            // Если есть результаты поиска, показываем их
+            if (searchResults.length > 0) {
+                showSearchResults = true;
+            } else {
+                // Если результатов нет, переходим на страницу поиска
+                window.location.href = `${base}/search?q=${encodeURIComponent(searchQuery)}`;
+                closeMenu();
+                isSearchOpen = false;
+            }
         }
+    }
+    
+    function handleResultClick(item) {
+        window.location.href = `${base}${item.href}`;
+        closeMenu();
+        isSearchOpen = false;
+        searchQuery = '';
+        searchResults = [];
+        showSearchResults = false;
     }
     
     function closeMenu() {
         isMenuOpen = false;
     }
     
-    function updateSearchQuery(value) {
-        searchQuery = value;
+    function closeSearch() {
+        showSearchResults = false;
     }
 </script>
 
+<!-- Остальная часть шаблона остается без изменений -->
 <nav 
     class="toolbar" 
     class:sticky
@@ -134,7 +210,7 @@
         <div class="right-section">
             <!-- Поисковая форма - видна и на десктопе, и на мобильных -->
             {#if isSearchOpen}
-                <div class="search-wrapper">
+                <div class="search-wrapper" class:has-results={showSearchResults && searchResults.length > 0}>
                     <SearchForm 
                         query={searchQuery}
                         on:query={updateSearchQuery}
@@ -143,6 +219,29 @@
                         variant="desktop"
                         inputId="search-input-desktop"
                     />
+                    
+                    <!-- Результаты поиска -->
+                    {#if showSearchResults && searchResults.length > 0}
+                        <div class="search-results">
+                            {#each searchResults as result (result.href + result.title)}
+                                <button 
+                                    class="search-result-item"
+                                    on:click={() => handleResultClick(result)}
+                                    style="color: {textColor};"
+                                >
+                                    <span class="result-title">{result.title}</span>
+                                    <span class="result-path">
+                                        {result.matchPath.join(' → ')}
+                                    </span>
+                                    <span class="result-href">{result.href}</span>
+                                </button>
+                            {/each}
+                        </div>
+                    {:else if showSearchResults && searchQuery.length >= 2}
+                        <div class="search-results empty">
+                            <div class="no-results">Ничего не найдено</div>
+                        </div>
+                    {/if}
                 </div>
             {/if}
             
@@ -182,6 +281,7 @@
     {/if}
 </nav>
 
+<!-- Стили остаются без изменений -->
 <style>
     .toolbar {
         width: 100%;
@@ -233,8 +333,13 @@
     }
 
     .search-wrapper {
+        position: relative;
         display: flex;
         align-items: center;
+    }
+    
+    .search-wrapper.has-results {
+        z-index: 1001;
     }
 
     .search-toggle {
@@ -255,6 +360,74 @@
 
     .toolbar.scrolled .search-toggle img {
         filter: none;
+    }
+
+    /* Результаты поиска */
+    .search-results {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        min-width: 300px;
+        max-width: 400px;
+        max-height: 400px;
+        overflow-y: auto;
+        background-color: var(--toolbar-bg);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        margin-top: 0.5rem;
+        z-index: 1002;
+    }
+    
+    .search-results.empty {
+        padding: 1rem;
+        text-align: center;
+        color: var(--toolbar-color);
+    }
+    
+    .no-results {
+        opacity: 0.7;
+        font-style: italic;
+    }
+
+    .search-result-item {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        background: none;
+        border: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .search-result-item:last-child {
+        border-bottom: none;
+    }
+    
+    .search-result-item:hover {
+        background-color: rgba(255,255,255,0.1);
+    }
+    
+    .result-title {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+    }
+    
+    .result-path {
+        display: block;
+        font-size: 0.8rem;
+        opacity: 0.7;
+        margin-bottom: 0.25rem;
+    }
+    
+    .result-href {
+        display: block;
+        font-size: 0.75rem;
+        opacity: 0.5;
+        font-family: monospace;
     }
 
     /* Кнопка гамбургер - скрыта на десктопе */
@@ -315,6 +488,18 @@
         
         .search-wrapper .search-input {
             width: 100%;
+        }
+        
+        .search-results {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            width: auto;
+            max-width: none;
+            max-height: calc(100vh - 120px);
+            border-radius: 0;
+            margin-top: 0;
         }
     }
 

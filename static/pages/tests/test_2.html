@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест: Родительный падеж</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .test-content {
+            padding: 30px;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            border-color: #4CAF50;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.1);
+        }
+
+        .question h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: #4CAF50;
+            background: #f1f8e9;
+        }
+
+        .option input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .input-answer {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .input-answer:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 30px 0 20px;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .check-btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            display: none;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1em;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .excellent {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .good {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+        }
+
+        .poor {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .score {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Стили для неправильных ответов */
+        .incorrect-answer {
+            background: #ffebee !important;
+            border-color: #f44336 !important;
+            color: #c62828;
+        }
+
+        .correct-answer {
+            background: #e8f5e8 !important;
+            border-color: #4CAF50 !important;
+            color: #2e7d32;
+        }
+
+        .hint {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .test-content {
+                padding: 20px;
+            }
+            
+            .question {
+                padding: 15px;
+            }
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Тест: Родительный падеж</h1>
+            <div class="subtitle">Для учащихся 3-4 классов</div>
+        </div>
+
+        <div class="test-content">
+            <p style="text-align: center; margin-bottom: 25px; color: #666;">
+                Изучаем родительный падеж: вопросы, предлоги и окончания!
+            </p>
+
+            <!-- Вопрос 1 -->
+            <div class="question">
+                <h3>1. На какие вопросы отвечает родительный падеж?</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q1" value="0">
+                        Кто? Что?
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="1">
+                        Кого? Чего?
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="2">
+                        Кому? Чему?
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="3">
+                        О ком? О чём?
+                    </label>
+                </div>
+            </div>
+
+            <!-- Вопрос 2 -->
+            <div class="question">
+                <h3>2. Выберите правильные предлоги родительного падежа:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q2" value="0">
+                        в, на, за
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="1">
+                        у, от, до, из, без, для, около
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="2">
+                        к, по
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="3">
+                        о, об, про
+                    </label>
+                </div>
+            </div>
+
+            <!-- Вопрос 3 -->
+            <div class="question">
+                <h3>3. Выберите словосочетание с существительным в родительном падеже:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q3" value="0">
+                        иду в школу
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="1">
+                        книга без обложки
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="2">
+                        пишу ручкой
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="3">
+                        думаю о друге
+                    </label>
+                </div>
+            </div>
+
+            <!-- Вопрос 4 -->
+            <div class="question">
+                <h3>4. Вставьте правильное окончание: "Нет подруг__"</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q4" value="0">
+                        -и
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="1">
+                        -ы
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="2">
+                        -е
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="3">
+                        -у
+                    </label>
+                </div>
+            </div>
+
+            <!-- Вопрос 5 -->
+            <div class="question">
+                <h3>5. Вставьте правильное окончание: "Много яблок__"</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q5" value="0">
+                        -о
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="1">
+                        -а
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="2">
+                        - 
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="3">
+                        -и
+                    </label>
+                </div>
+            </div>
+
+            <!-- Вопрос 6 -->
+            <div class="question">
+                <h3>6. Выберите предложение с существительным в родительном падеже:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q6" value="0">
+                        Мама читает книгу.
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="1">
+                        Дети играют в саду.
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="2">
+                        Ученик пишет карандашом.
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="3">
+                        Чашка стоит без ручки.
+                    </label>
+                </div>
+            </div>
+
+            <!-- Вопрос 7 -->
+            <div class="question">
+                <h3>7. Вставьте правильное окончание: "Коробка конфет__"</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q7" value="0">
+                        - 
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="1">
+                        -ов
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="2">
+                        -ы
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="3">
+                        -ам
+                    </label>
+                </div>
+            </div>
+
+            <!-- Вопрос 8 -->
+            <div class="question">
+                <h3>8. Напишите существительное "окно" в родительном падеже:</h3>
+                <input type="text" class="input-answer" name="q8" placeholder="Введите ответ...">
+                <div class="hint">Например: стола, книги</div>
+            </div>
+
+            <!-- Вопрос 9 -->
+            <div class="question">
+                <h3>9. Напишите существительное "ученики" в родительном падеже:</h3>
+                <input type="text" class="input-answer" name="q9" placeholder="Введите ответ...">
+                <div class="hint">Например: столов, книг</div>
+            </div>
+
+            <!-- Вопрос 10 -->
+            <div class="question">
+                <h3>10. Составьте предложение с существительным в родительном падеже с предлогом "из":</h3>
+                <input type="text" class="input-answer" name="q10" placeholder="Введите предложение...">
+                <div class="hint">Например: Я вышел из дома.</div>
+            </div>
+
+            <div class="button-container">
+                <button class="check-btn" onclick="checkAnswers()">Проверить ответы!</button>
+            </div>
+
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            // Правильные ответы
+            const correctAnswers = {
+                q1: "1", // Кого? Чего?
+                q2: "1", // у, от, до, из, без, для, около
+                q3: "1", // книга без обложки
+                q4: "0", // -и
+                q5: "2", // -
+                q6: "3", // Чашка стоит без ручки
+                q7: "0", // -
+                q8: "окна", 
+                q9: "учеников",
+                q10: ["из"] // Должен содержать предлог "из"
+            };
+
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+
+            // Сбрасываем все стили перед проверкой
+            resetAnswerStyles();
+
+            // Проверяем вопросы с выбором ответа (1-7)
+            for (let i = 1; i <= 7; i++) {
+                const questionName = 'q' + i;
+                const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                
+                if (selectedOption) {
+                    const selectedValue = selectedOption.value;
+                    const options = document.querySelectorAll(`input[name="${questionName}"]`);
+                    
+                    // Подсвечиваем правильный ответ зеленым
+                    const correctOption = Array.from(options).find(opt => opt.value === correctAnswers[questionName]);
+                    if (correctOption) {
+                        correctOption.parentElement.classList.add('correct-answer');
+                    }
+                    
+                    if (selectedValue === correctAnswers[questionName]) {
+                        score++;
+                    } else {
+                        // Подсвечиваем неправильный ответ красным
+                        selectedOption.parentElement.classList.add('incorrect-answer');
+                    }
+                } else {
+                    // Если ответ не выбран, все равно показываем правильный ответ
+                    const options = document.querySelectorAll(`input[name="${questionName}"]`);
+                    const correctOption = Array.from(options).find(opt => opt.value === correctAnswers[questionName]);
+                    if (correctOption) {
+                        correctOption.parentElement.classList.add('correct-answer');
+                    }
+                }
+            }
+
+            // Проверяем вопросы с вводом текста (8-10)
+            // Вопрос 8
+            const answer8 = document.querySelector('input[name="q8"]').value.toLowerCase().trim();
+            if (answer8 === "окна") {
+                score++;
+                document.querySelector('input[name="q8"]').classList.add('correct-answer');
+            } else {
+                document.querySelector('input[name="q8"]').classList.add('incorrect-answer');
+            }
+
+            // Вопрос 9
+            const answer9 = document.querySelector('input[name="q9"]').value.toLowerCase().trim();
+            if (answer9 === "учеников") {
+                score++;
+                document.querySelector('input[name="q9"]').classList.add('correct-answer');
+            } else {
+                document.querySelector('input[name="q9"]').classList.add('incorrect-answer');
+            }
+
+            // Вопрос 10
+            const answer10 = document.querySelector('input[name="q10"]').value.toLowerCase().trim();
+            if (answer10.includes("из") && answer10.length > 5) {
+                score++;
+                document.querySelector('input[name="q10"]').classList.add('correct-answer');
+            } else {
+                document.querySelector('input[name="q10"]').classList.add('incorrect-answer');
+            }
+
+            // Показываем результат
+            const resultDiv = document.getElementById('result');
+            let message = '';
+            let resultClass = '';
+
+            if (score >= 9) {
+                message = `<span class="emoji">🎉</span> <div class="score">Потрясающе! ${score}/${totalQuestions}</div>Ты отлично разбираешься в родительном падеже!`;
+                resultClass = 'excellent';
+            } else if (score >= 7) {
+                message = `<span class="emoji">👍</span> <div class="score">Очень хорошо! ${score}/${totalQuestions}</div>Ты хорошо знаешь тему, есть небольшие ошибки для работы!`;
+                resultClass = 'good';
+            } else if (score >= 5) {
+                message = `<span class="emoji">📖</span> <div class="score">Неплохо! ${score}/${totalQuestions}</div>Есть над чем поработать, повтори тему ещё раз!`;
+                resultClass = 'good';
+            } else {
+                message = `<span class="emoji">📚</span> <div class="score">Нужно повторить! ${score}/${totalQuestions}</div>Вернись к теме "Родительный падеж" и попробуй снова!`;
+                resultClass = 'poor';
+            }
+            
+            resultDiv.innerHTML = message;
+            resultDiv.className = `result ${resultClass}`;
+            resultDiv.style.display = 'block';
+
+            // Прокручиваем к результату
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetAnswerStyles() {
+            // Сбрасываем стили для вариантов ответов
+            const allOptions = document.querySelectorAll('.option');
+            allOptions.forEach(option => {
+                option.classList.remove('correct-answer', 'incorrect-answer');
+            });
+            
+            // Сбрасываем стили для полей ввода
+            const allInputs = document.querySelectorAll('.input-answer');
+            allInputs.forEach(input => {
+                input.classList.remove('correct-answer', 'incorrect-answer');
+            });
+        }
+
+        // Добавляем обработчики для улучшения UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    
+                    // Снимаем выделение со всех options в этом вопросе
+                    const question = this.closest('.question');
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.style.background = 'white';
+                        opt.style.borderColor = '#ddd';
+                    });
+                    
+                    // Выделяем выбранный option
+                    this.style.background = '#f1f8e9';
+                    this.style.borderColor = '#4CAF50';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
