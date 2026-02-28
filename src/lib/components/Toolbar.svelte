@@ -8,62 +8,62 @@
     
     export let items = [
         { 
-            title: 'Главная', 
-            href: '/', 
-            icon: '' 
+        title: 'Главная', 
+        href: `${base}/`, 
+        icon: '' 
         },
         { 
-            title: 'Учим и Играем',
-            href: '/learn_and_train', 
+        title: 'Учим и Играем',
+        href: `${base}/learn_and_train`, 
+        icon: '',
+        dropdown: [
+            { 
+            title: 'Предлоги', 
+            href: `${base}/learn_and_train/learn/prewords`,
             icon: '',
             dropdown: [
-                { 
-                    title: 'Предлоги', 
-                    href: '/learn_and_train/learn/prewords',
-                    icon: '',
-                    dropdown: [
-                        {
-                            title: 'Тренажер',
-                            href: '/learn_and_train/train/prewords',
-                            icon: ''
-                        }
-                    ]
-                },
-                { 
-                    title: 'Падежи',
-                    href: '/learn_and_train/learn/cases', 
-                    icon: '',
-                    dropdown: [
-                        { title: 'Именительный падеж', href: '/learn_and_train/train/tests?test_num=1', icon: '' },
-                        { title: 'Родительный падеж', href: '/learn_and_train/train/tests?test_num=2', icon: '' },
-                        { title: 'Дательный падеж', href: '/learn_and_train/train/tests?test_num=3', icon: '' },
-                        { title: 'Винительный падеж', href: '/learn_and_train/train/tests?test_num=4', icon: '' },
-                        { title: 'Творительный падеж', href: '/learn_and_train/train/tests?test_num=5', icon: '' },
-                        { title: 'Предложный падеж', href: '/learn_and_train/train/tests?test_num=6', icon: '' },
-                        { title: 'Тренажер', href: '/learn_and_train/train/cases', icon: '' }
-                    ]
+                {
+                title: 'Тренажер',
+                href: `${base}/learn_and_train/train/prewords`,
+                icon: ''
                 }
             ]
-        },
-        { 
-            title: 'Материалы',
-            href: '/materials',
+            },
+            { 
+            title: 'Падежи',
+            href: `${base}/learn_and_train/learn/cases`, 
             icon: '',
             dropdown: [
-                { title: 'Вспомогательные карточки', href: '/materials/cards', icon: '' },
-                { title: 'Интерактивные презентации', href: '/materials/docs', icon: '' },
-                { title: 'Тесты и задания', href: '/materials/tests', icon: '' }
+                { title: 'Именительный падеж', href: `${base}/learn_and_train/train/tests?test_num=1`, icon: '' },
+                { title: 'Родительный падеж', href: `${base}/learn_and_train/train/tests?test_num=2`, icon: '' },
+                { title: 'Дательный падеж', href: `${base}/learn_and_train/train/tests?test_num=3`, icon: '' },
+                { title: 'Винительный падеж', href: `${base}/learn_and_train/train/tests?test_num=4`, icon: '' },
+                { title: 'Творительный падеж', href: `${base}/learn_and_train/train/tests?test_num=5`, icon: '' },
+                { title: 'Предложный падеж', href: `${base}/learn_and_train/train/tests?test_num=6`, icon: '' },
+                { title: 'Тренажер', href: `${base}/learn_and_train/train/cases`, icon: '' }
             ]
+            }
+        ]
         },
         { 
-            title: 'Инструкция', 
-            href: '/guide', 
-            icon: '' 
+        title: 'Материалы',
+        href: `${base}/materials`,
+        icon: '',
+        dropdown: [
+            { title: 'Вспомогательные карточки', href: `${base}/materials/cards`, icon: '' },
+            { title: 'Интерактивные презентации', href: `${base}/materials/docs`, icon: '' },
+            { title: 'Тесты и задания', href: `${base}/materials/tests`, icon: '' }
+        ]
         },
         { 
-            title: 'О сайте', 
-            href: '/about', 
-            icon: '' 
+        title: 'Инструкция', 
+        href: `${base}/guide`, 
+        icon: '' 
+        },
+        { 
+        title: 'О сайте', 
+        href: `${base}/about`, 
+        icon: '' 
         }
     ];
     export let logoSrc = '';
