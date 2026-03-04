@@ -33,6 +33,7 @@
             items={text.list}
             color="var(--color-texts-main-dark)"
             type={['square']}
+            fontSizeTitle='var(--font-size-card-description)'
         />
     {/each}
 </Container>

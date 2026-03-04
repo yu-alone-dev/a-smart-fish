@@ -21,6 +21,21 @@
     width: 100%;
 }
 
+.right {
+    text-align: right;
+    display: flex;
+    justify-content: end;
+    align-items: end; 
+    width: 100%;
+}
+
+.justify {
+    text-align: justify;
+    display: flex;
+    justify-content: start;
+    align-items: start; 
+}
+
 .overlay {
     position: absolute;
     top: 0;

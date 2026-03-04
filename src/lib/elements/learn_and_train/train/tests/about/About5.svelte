@@ -33,6 +33,7 @@
         items={texts[0].list}
         color="var(--color-texts-main-dark)"
         type={['square']}
+        fontSizeTitle='var(--font-size-card-description)'
     />
     <TextBlock
         description={additional}
@@ -46,5 +47,6 @@
         items={texts[1].list}
         color="var(--color-texts-main-dark)"
         type={['square']}
+        fontSizeTitle='var(--font-size-card-description)'
     />
 </Container>

@@ -6,6 +6,10 @@
     import Spacer from '$lib/components/Spacer.svelte';
 </script>
 
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+
 <Toolbar 
     logoSrc="/icons/favicon.png"
     backgroundColor="var(--color-background-button)"

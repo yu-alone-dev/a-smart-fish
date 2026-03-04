@@ -51,7 +51,7 @@ style(
 `отымённые, которые произошли от существительных - в течение, по мере, вследствие;
 отглагольные, которые произошли от деепричастий - благодаря, смотря;
 наречные, которые произошли от наречий - вокруг, около, мимо.`,
-'i', [], [/-/, null], [';', '.']).split('\n'),
+'i', [], [/-/, null], [';', '.']).split('\n').map( line => {return `- ${line}`}),
 ]];
 
     const titleImage = 'Иллюстрация пространственных предлогов';
@@ -64,7 +64,7 @@ style(
 
         <TextBlock 
             description={aboutPrewords}
-            classListDescription="left"
+            classListDescription="justify"
             colorDescription="var(--color-texts-main-dark)"
         />
         <Spacer axis="vertical" size="3rem"/>
@@ -73,7 +73,7 @@ style(
             title={titleAboutPrewords}
             description={aboutAllPrewords}
             classListTitle="center"
-            classListDescription="left"
+            classListDescription="justify"
             colorTitle="var(--color-texts-main-dark)"
             colorDescription="var(--color-texts-main-dark)"
         />
@@ -90,6 +90,6 @@ style(
 
         <Title title={titleImage}/>
         <Spacer axis="vertical" size="5rem"/>
-        <Image page='learn_and_train/learn/prewords' src={'prewords_example.png'}/>
+        <Image page='learn_and_train/learn/prewords' size="auto" src={'prewords_example.png'}/>
     </Container>
 </div>

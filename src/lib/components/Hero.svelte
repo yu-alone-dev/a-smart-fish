@@ -21,6 +21,10 @@
         : `${base}${imageSrc}`;;
 </script>
 
+<svelte:head>
+  <title>{title.replace('<br>', ' ')}</title>
+</svelte:head>
+
 <section 
     class={"hero" + (smallVersion ? ' hero-small' : '')}
     style="background-image: url('{fullSrc}');"

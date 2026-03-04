@@ -7,6 +7,8 @@
   export let title = '';
   export let classListTitle = 'center';
   export let colorTitle = 'var(--color-texts-main)';
+  export let fontSizeTitle = 'var(--font-size-card-title)';
+  export let fontSizeList  = 'var(--font-size-card-description)';
 
   $: titleClasses = `title ${classListTitle}`;
 </script>
@@ -15,7 +17,7 @@
   <!-- Блок заголовка -->
   {#if title}
     <div class="list-header">
-      <h2 class={titleClasses} style="color: {colorTitle};">{@html title}</h2>
+      <h2 class={titleClasses} style="color: {colorTitle}; font-size:{fontSizeTitle};">{@html title}</h2>
     </div>
   {/if}
 
@@ -24,7 +26,7 @@
     {#if items && items.length > 0}
       <ul 
         class="styled-list" 
-        style="list-style-type: {type[level]}; color: {color};"
+        style="list-style-type: {type[level]}; color: {color}; font-size:{fontSizeList};"
       >
         {#each items as item, index (index)}
           {#if Array.isArray(item)}
@@ -48,12 +50,20 @@
 </div>
 
 <style>
+  p {
+    display: table;
+  }
+
+  h2 {
+    display: table;
+  }
+
   .list-wrapper {
     width: 100%;
   }
 
   .list-header {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .title {
@@ -63,6 +73,7 @@
     font-weight: 500;
     margin: 0 0 0 0;
     gap: 5px;
+    line-height: 1.5;
   }
 
   /* Стили для списка */

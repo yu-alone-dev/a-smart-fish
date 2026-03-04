@@ -70,27 +70,43 @@ const cardsFile = [
                 <Spacer axis="vertical" line={true} size="2rem" thickness="3px"/>
             {/if}
             <Container orientation="horizontal">
-                <TextBlock 
-                    title={card.text.title}
-                    description={card.text.description}
-                    classListTitle="left"
-                    classListDescription="left"
-                    colorDescription="var(--color-texts-main-dark)"
-                />
-                <Image page='guide' src={card.img} size="large" containerWidth='900px'/>
+                <Container>
+                    <TextBlock 
+                        title={card.text.title}
+                        fontSizeTitle='var(--font-size-title)'
+                        description={card.text.description}
+                        classListTitle="left"
+                        classListDescription="justify"
+                        colorDescription="var(--color-texts-main-dark)"
+                    />
+                </Container>
+                <Spacer axis="horizontal" size="2rem"/>
+                <Container>
+                    <Image
+                        page='guide'
+                        src={card.img}
+                        size={card.img == 'edit_file_svg.png' ? "medium" : "full"}
+                        align='right'/>
+                </Container>
             </Container>
         {/each}
         <Spacer axis="vertical" line={true} size="2rem" thickness="5px"/>
         
         <Container orientation="horizontal">
-            <TextBlock 
-                title={cardsTitleSettings}
-                description={cardsTextSettings}
-                classListTitle="left"
-                classListDescription="left"
-                colorDescription="var(--color-texts-main-dark)"
-            />
-            <Image page='guide' src="load_download.png" size="large"/>
+            <Container>
+                <TextBlock 
+                    title={cardsTitleSettings}
+                    fontSizeTitle='var(--font-size-title)'
+                    description={cardsTextSettings}
+                    classListTitle="left"
+                    classListDescription="justify"
+                    colorDescription="var(--color-texts-main-dark)"
+                />
+            </Container>
+            <Spacer axis="horizontal" size="2rem"/>
+            <Container>
+                <Image page='guide' src="load_download.png" size="large" align='right'/>
+            </Container>
         </Container>
         <Spacer axis="vertical" line={true} size="2rem" thickness="5px"/>
 
@@ -99,20 +115,27 @@ const cardsFile = [
                 <Spacer axis="vertical" line={true} size="2rem" thickness="3px"/>
             {/if}
             <Container orientation={card.img != 'edit_file_svg.png' ? "horizontal" : "vertical"}>
-                <TextBlock 
-                    title={card.text.title}
-                    description={card.text.description}
-                    classListTitle="left"
-                    classListDescription="left"
-                    colorDescription="var(--color-texts-main-dark)"
-                />
+                <Container>
+                    <TextBlock 
+                        title={card.text.title}
+                        fontSizeTitle='var(--font-size-title)'
+                        description={card.text.description}
+                        classListTitle="left"
+                        classListDescription="justify"
+                        colorDescription="var(--color-texts-main-dark)"
+                    />
                 {#if card.img == 'edit_file_svg.png'}
                     <Spacer axis="vertical" size="2rem" thickness="3px"/>
                 {/if}
-                <Image
-                    page='guide'
-                    src={card.img}
-                    size={card.img != 'edit_file_svg.png' ? "large" : ""}/>
+                </Container>
+                <Spacer axis="horizontal" size="2rem"/>
+                <Container>
+                    <Image
+                        page='guide'
+                        src={card.img}
+                        size={card.img == 'file_svg.png' ? "small" : card.img == 'edit_file_svg.png' ? 'full' : 'large'}
+                        align='right'/>
+                </Container>
             </Container>
         {/each}
     </Container>

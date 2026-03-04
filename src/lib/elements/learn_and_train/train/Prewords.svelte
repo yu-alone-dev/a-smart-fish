@@ -32,7 +32,7 @@
 
         <TextBlock 
             description={aboutTrain}
-            classListDescription="left"
+            classListDescription="justify"
             colorDescription="var(--color-texts-main-dark)"
         />
         <Spacer axis="vertical" size="3rem"/>
@@ -51,7 +51,7 @@
             title={titleStartTrain}
             description={descriptionStartTrain}
             classListTitle="left"
-            classListDescription="left"
+            classListDescription="justify"
             colorTitle="var(--color-texts-main-dark)"
             colorDescription="var(--color-texts-main-dark)"
         />

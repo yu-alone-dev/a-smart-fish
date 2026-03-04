@@ -187,7 +187,7 @@ ${style('Склонение', 'b')} - это грамматическое сре
                         <Image
                             page='learn_and_train/learn/cases'
                             src={`case_${case_element_index * case_element.length + element_index + 1}.png`}
-                            size='large'
+                            width='475px'
                         />
                         <Spacer axis="vertical" size="1rem"/>
                         <Button 

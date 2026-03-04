@@ -6,7 +6,7 @@
     export let href = '';
     export let page = '';
     export let loading = 'lazy';
-    export let size = 'auto'; // 'auto', 'small', 'medium', 'large', 'full', или конкретное значение (например '300px')
+    export let size = 'large'; // 'auto', 'small', 'medium', 'large', 'full', или конкретное значение (например '300px')
     export let width = '';     // конкретная ширина (переопределяет size)
     export let height = '';    // конкретная высота
     export let objectFit = 'cover'; // 'cover', 'contain', 'fill', 'scale-down'

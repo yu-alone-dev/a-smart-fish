@@ -25,21 +25,14 @@
         <Image
             page='learn_and_train/train/tests'
             src={`test_${test_num}.png`}
-            size='medium'
+            width='475px'
         />
     </Container>
     <Container>
-        <div class="text">
-            <TextBlock 
-                description={texts[test_num - 1]}
-                classListDescription='left'
-            />
-        </div>
+        <TextBlock 
+            description={texts[test_num - 1]}
+            classListDescription='justify'
+            fontSizeDescription='xx-large'
+        />
     </Container>
 </Container>
-
-<style>
-.text {
-    font-size: 'xxx-large';
-}
-</style>

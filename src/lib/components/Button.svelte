@@ -55,7 +55,7 @@
 <style>
   .feature-card {
     background-color: var(--color-background-button);
-    padding: 1rem;
+    padding: 0.25rem;
     border-radius: 4px;
     text-decoration: none;
     display: block;
