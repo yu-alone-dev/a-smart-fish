@@ -31,6 +31,7 @@
 <!-- Hero на весь экран -->
 <Hero 
     imageSrc="/imgs/hero-bg.png"
+    smallVersion="True"
     title={`${cases[test_num - 1]} ${casename}`}
 />
 
@@ -38,6 +39,6 @@
 <main>
     <Spacer axis="vertical" size="3rem"/>
     <Tests/>
-    <Spacer axis="vertical" size="3rem"/>
+    <Spacer axis="vertical" size="7rem"/>
     <Footer/>
 </main>

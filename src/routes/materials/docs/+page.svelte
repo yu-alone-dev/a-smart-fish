@@ -16,6 +16,7 @@
 <!-- Hero на весь экран -->
 <Hero 
     imageSrc="/imgs/hero-bg.png"
+    smallVersion="True"
     title="Интерактивные презентации"
 />
 
@@ -23,6 +24,6 @@
 <main>
     <Spacer axis="vertical" size="3rem"/>
     <Docs/>
-    <Spacer axis="vertical" size="3rem"/>
+    <Spacer axis="vertical" size="7rem"/>
     <Footer/>
 </main>

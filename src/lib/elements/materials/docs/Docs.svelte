@@ -32,22 +32,33 @@
             <Container orientation="horizontal">
                 {#each doc as element, element_index}
                     {#if element_index > 0}
-                        <Spacer axis="horizontal" size="2rem"/>
+                        <Spacer axis="horizontal" size="1rem"/>
                     {/if}
                     <Container>
-                        <Image
-                            page='materials/docs'
-                            src={`docs_${doc_index * doc.length  + element_index + 1}.png`}
-                            size='large'
-                        />
-                        <Spacer axis="vertical" size="0.5rem"/>
-                        <Button 
-                            title={download}
-                            href={base + element}
-                        />
+                        <div class="center">
+                            <Image
+                                page='materials/docs'
+                                src={`docs_${doc_index * doc.length  + element_index + 1}.png`}
+                                size='large'
+                            />
+                        </div>
+                        <Spacer axis="vertical" size="1rem"/>
+                        <div class="buttons_style">
+                            <Button 
+                                title={download}
+                                href={base + element}
+                            />
+                        </div>
+                        <Spacer axis="vertical" size="1rem"/>
                     </Container>
                 {/each}
             </Container>
         {/each}
     </Container>
 </div>
+
+<style>
+.buttons_style {
+    padding: 0px 55px;
+}
+</style>

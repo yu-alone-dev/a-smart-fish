@@ -13,7 +13,7 @@
 
 <style>
     .container {
-        max-width: 65rem;
+        max-width: 90rem;
         display: flex;
         width: 100%;
     }

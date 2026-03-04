@@ -4,6 +4,8 @@
     export let items = [];
     export let textColor = '';
     export let backgroundColor = '';
+    export let overlayColor = 'var(--color-background-button)';
+    export let overlayOpacity = '0.5';
     
     let openDropdown = null;
     let hoverTimeout = null;
@@ -37,6 +39,10 @@
 </script>
 
 <div class="desktop-menu">
+    <div 
+        class="overlay"
+        style="background: {overlayColor}; opacity: {overlayOpacity};"
+    ></div>
     {#each items as item, index}
         <div class="menu-item-wrapper">
             {#if item.dropdown?.length}
@@ -110,6 +116,15 @@
         align-items: center;
         margin-left: auto;
         margin-right: 1rem;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
     }
     
     .menu-item-wrapper {

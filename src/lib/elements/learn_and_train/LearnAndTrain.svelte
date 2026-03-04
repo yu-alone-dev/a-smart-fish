@@ -15,7 +15,7 @@
                 href: '/learn_and_train/learn/prewords'
             },
             button2: {
-                title: 'Тренажер',
+                title: 'Тренажёр',
                 href: '/learn_and_train/train/prewords'
             },
             img: 'prewords.png'
@@ -26,7 +26,7 @@
                 href: '/learn_and_train/learn/cases'
             },
             button2: {
-                title: 'Тренажер',
+                title: 'Тренажёр',
                 href: '/learn_and_train/train/cases'
             },
             img: 'case.png'
@@ -42,24 +42,33 @@
         <Container orientation="horizontal">
             {#each cards as card, index}
                 {#if index > 0}
-                    <Spacer axis="vertical" line={true} size="2rem" thickness="3px"/>
+                    <Spacer axis="horizontal" size="2rem"/>
                 {/if}
                     <Container orientation="vertical">
                         <Image page='learn_and_train' src={card.img}/>
-                        <Container orientation="horizontal" content="center">
+                        
+                        <Container orientation="vertical" content="center">
+                            <div class="buttons_style">
                             <Button 
                                 title={card.button1.title}
                                 href={base + card.button1.href}
                             />
-                            <Spacer axis="horizontal" size="5rem" thickness="3px"/>
+                            <Spacer axis="vertical" size="1rem"/>
                             <Button 
                                 title={card.button2.title}
                                 href={base + card.button2.href}
                             />
+                            </div>
                         </Container>
                     </Container>
             {/each}
         </Container>
     </Container>
 </div>
+
+<style>
+.buttons_style {
+    padding: 0px 40px;
+}
+</style>
 

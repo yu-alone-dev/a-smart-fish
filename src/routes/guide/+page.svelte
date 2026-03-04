@@ -16,6 +16,7 @@
 <!-- Hero на весь экран -->
 <Hero 
     imageSrc="/imgs/hero-bg.png"
+    smallVersion="True"
     title="Инструкция"
 />
 
@@ -23,6 +24,6 @@
 <main>
     <Spacer axis="vertical" size="3rem"/>
     <Guide/>
-    <Spacer axis="vertical" size="3rem"/>
+    <Spacer axis="vertical" size="7rem"/>
     <Footer/>
 </main>

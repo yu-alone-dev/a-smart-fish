@@ -6,11 +6,12 @@
     export let titleColor = 'var(--color-texts-main-light)';
     export let subtitleColor = 'var(--color-texts-main-light)';
     export let overlayColor = 'var(--color-background-button)';
-    export let overlayOpacity = '0.7';
+    export let overlayOpacity = '0.3';
+    export let smallVersion = false;
     
     function scrollToContent() {
         window.scrollTo({
-            top: window.innerHeight,
+            top: window.innerHeight-50,
             behavior: 'smooth'
         });
     }
@@ -21,7 +22,7 @@
 </script>
 
 <section 
-    class="hero" 
+    class={"hero" + (smallVersion ? ' hero-small' : '')}
     style="background-image: url('{fullSrc}');"
 >
     <div 
@@ -32,7 +33,7 @@
     <div class="hero-content">
         {#if title}
             <div class="title-wrapper">
-                <h1 class="hero-title" style="color: {titleColor};">{title}</h1>
+                <h1 class="hero-title" style="color: {titleColor};">{@html title}</h1>
             </div>
         {/if}
         
@@ -41,10 +42,12 @@
         {/if}
     </div>
     
+    {#if !smallVersion}
     <button class="scroll-indicator" on:click={scrollToContent}>
         <span>▼</span>
         <span class="scroll-text">Листайте вниз</span>
     </button>
+    {/if}
 </section>
 
 <style>
@@ -57,6 +60,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .hero-small {
+        height: 50vh;
     }
 
     .hero-overlay {
@@ -82,11 +89,17 @@
     }
 
     .title-wrapper {
-        display: inline-block;
+        display: flex; /* Меняем на flex для лучшего контроля */
+        justify-content: center;
+        align-items: center;
         background: transparent;
-        border: 1.2rem solid var(--color-texts-main-light);;
-        padding: 1rem;
+        border: 0.5rem solid var(--color-texts-main-light);
+        padding: 2rem 2rem; /* Уменьшаем паддинги */
         margin: 0;
+        width: 800px; /* Фиксированная ширина рамки */
+        max-width: 90vw; /* Но на мобильных не более 90% экрана */
+        min-height: 200px; /* Минимальная высота */
+        box-sizing: border-box; /* Чтобы padding не увеличивал ширину */
     }
 
     .hero-title {
@@ -160,7 +173,7 @@
         }
         
         .title-wrapper {
-            padding: 0.8rem;
+            padding: 2rem 4rem;
         }
     }
 

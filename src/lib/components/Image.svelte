@@ -15,6 +15,9 @@
     export let border = false;      // рамка
     export let classImg = '';       // дополнительные классы для изображения
     export let classLink = '';      // дополнительные классы для ссылки
+    export let containerWidth = ''; // ширина контейнера (если нужна)
+    export let containerHeight = ''; // высота контейнера (если нужна)
+    export let align = 'center';     // выравнивание: 'center', 'left', 'right', 'top', 'bottom'
 
     $: fullSrc = page 
         ? `${base}/imgs/${page}/${src}` 
@@ -53,11 +56,60 @@
         width: ${imageSize.width};
         height: ${imageSize.height};
         object-fit: ${objectFit};
+        object-position: ${getObjectPosition(align)};
     `;
+
+    // Стили для контейнера (ссылки или div)
+    $: containerStyle = `
+        ${containerWidth ? `width: ${containerWidth};` : ''}
+        ${containerHeight ? `height: ${containerHeight};` : ''}
+        display: flex;
+        justify-content: ${getJustifyContent(align)};
+        align-items: ${getAlignItems(align)};
+        overflow: hidden;
+    `;
+
+    // Вспомогательные функции для преобразования align в CSS значения
+    function getJustifyContent(align) {
+        const horizontalMap = {
+            'left': 'flex-start',
+            'center': 'center',
+            'right': 'flex-end',
+            'top': 'center',     // для top используем center по горизонтали
+            'bottom': 'center'   // для bottom используем center по горизонтали
+        };
+        return horizontalMap[align] || 'center';
+    }
+
+    function getAlignItems(align) {
+        const verticalMap = {
+            'top': 'flex-start',
+            'center': 'center',
+            'bottom': 'flex-end',
+            'left': 'center',     // для left используем center по вертикали
+            'right': 'center'     // для right используем center по вертикали
+        };
+        return verticalMap[align] || 'center';
+    }
+
+    function getObjectPosition(align) {
+        const positionMap = {
+            'left': 'left center',
+            'right': 'right center',
+            'top': 'center top',
+            'bottom': 'center bottom',
+            'center': 'center center'
+        };
+        return positionMap[align] || 'center center';
+    }
 </script>
 
 {#if href}
-    <a {href} class="image-link {classLink}" style={href ? '' : ''}>
+    <a 
+        {href} 
+        class="image-container image-link {classLink}" 
+        style={containerStyle}
+    >
         <img 
             src={fullSrc} 
             {alt} 
@@ -67,21 +119,35 @@
         >
     </a>
 {:else}
-    <img 
-        src={fullSrc} 
-        {alt} 
-        {loading} 
-        class={imgClasses}
-        style={imgStyle}
+    <div 
+        class="image-container {classLink}" 
+        style={containerStyle}
     >
+        <img 
+            src={fullSrc} 
+            {alt} 
+            {loading} 
+            class={imgClasses}
+            style={imgStyle}
+        >
+    </div>
 {/if}
 
 <style>
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        margin: 0 auto; /* Центрирование самого контейнера если нужно */
+    }
+
     .image-link {
-        display: inline-block;
+        display: flex; /* Переопределяем inline-block на flex */
         text-decoration: none;
         cursor: pointer;
-        line-height: 0; /* Убирает лишний отступ под изображением */
+        line-height: 0;
     }
 
     .image-link:hover {
@@ -90,8 +156,9 @@
 
     .image {
         display: block;
-        max-width: 100%;
+        max-width: none; /* Убираем ограничение max-width */
         transition: all 0.3s ease;
+        flex-shrink: 0; /* Запрещаем сжатие изображения */
     }
 
     /* Скругление */
@@ -109,11 +176,18 @@
         border: 2px solid var(--color-border, #ddd);
     }
 
-    /* Адаптивность */
+    /* Адаптивность - теперь изображение центрируется в контейнере */
     @media (max-width: 640px) {
-        .image {
-            width: 100% !important; /* На мобильных устройствах изображение на всю ширину */
+        .image-container {
+            width: 100% !important;
             height: auto !important;
+            min-height: 200px; /* Минимальная высота для контейнера на мобильных */
+        }
+        
+        .image {
+            width: 100% !important;
+            height: auto !important;
+            object-fit: contain; /* На мобильных лучше contain чтобы видеть всё изображение */
         }
     }
 </style>

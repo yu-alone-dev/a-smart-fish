@@ -83,7 +83,7 @@ style(
             items={aboutAllPrewordsList}
             classListTitle="center"
             colorTitle="var(--color-texts-main-dark)"
-            type={['decimal', 'square', 'disc']}
+            type={['decimal', 'square', 'none']}
             color="var(--color-texts-main-dark)"
         />
         <Spacer axis="vertical" size="3rem"/>

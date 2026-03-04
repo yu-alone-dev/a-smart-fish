@@ -134,7 +134,7 @@ ${style('Склонение', 'b')} - это грамматическое сре
             classListDescription="left"
             colorDescription="var(--color-texts-main-dark)"
         />
-        <Spacer axis="vertical" size="2rem"/>
+        <Spacer axis="vertical" size="5rem"/>
 
         <TextBlock
             title={aboutAddDeclension.title} 
@@ -160,7 +160,7 @@ ${style('Склонение', 'b')} - это грамматическое сре
             type={['square']}
             color="var(--color-texts-main-dark)"
         />
-        <Spacer axis="vertical" size="2rem"/>
+        <Spacer axis="vertical" size="5rem"/>
 
         <TextBlock
             title={aboutWTFDeclension.title} 
@@ -169,7 +169,7 @@ ${style('Склонение', 'b')} - это грамматическое сре
             classListDescription="left"
             colorDescription="var(--color-texts-main-dark)"
         />
-        <Spacer axis="vertical" size="3rem"/>
+        <Spacer axis="vertical" size="7rem"/>
 
         <Title title={titlePagesCases}/>
         <Spacer axis="vertical" size="2rem"/>
@@ -181,7 +181,7 @@ ${style('Склонение', 'b')} - это грамматическое сре
             <Container orientation="horizontal">
                 {#each case_element as element, element_index}
                     {#if element_index > 0}
-                        <Spacer axis="horizontal" size="2rem"/>
+                        <Spacer axis="horizontal" size="1rem"/>
                     {/if}
                     <Container>
                         <Image
@@ -189,12 +189,15 @@ ${style('Склонение', 'b')} - это грамматическое сре
                             src={`case_${case_element_index * case_element.length + element_index + 1}.png`}
                             size='large'
                         />
-                        <Spacer axis="vertical" size="0.5rem"/>
+                        <Spacer axis="vertical" size="1rem"/>
                         <Button 
                             title={`${element} ${casename}`}
                             href={base + '/learn_and_train/train/tests'}
                             url_parameter={`test_num=${case_element_index * case_element.length + element_index+1}`}
                         />
+                        {#if element_index > 0}
+                            <Spacer axis="vertical" size="1rem"/>
+                        {/if}
                     </Container>
                 {/each}
             </Container>

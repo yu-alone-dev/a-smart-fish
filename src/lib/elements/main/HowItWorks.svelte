@@ -13,7 +13,7 @@
         {
             text: {
                 title: 'РАЗДЕЛ "УЧИМ И ИГРАЕМ"',
-                description: 'В разделе "Учим и Играем" находятся обучающие материалы и тренажеры по предлогам и падежам для развития предложно-падежных конструкций.'
+                description: 'В разделе "Учим и Играем" находятся обучающие материалы и Тренажёры по предлогам и падежам для развития предложно-падежных конструкций.'
             },
             button: {
                 title: 'Учим и Играем',
@@ -35,7 +35,7 @@
         {
             text: {
                 title: 'РАЗДЕЛ "ИНСТРУКЦИЯ"',
-                description: 'В разделе "Инструкция" находится описание использования тренажера и возможность настройки тренажера.'
+                description: 'В разделе "Инструкция" находится описание использования Тренажёра и возможность настройки Тренажёра.'
             },
             button: {
                 title: 'Инструкция',
@@ -48,7 +48,7 @@
 
 
 <div class="center">
-    <Container class="cards">
+    <Container>
         <Title title={title}/>
         <Spacer axis="vertical" size="5rem"/>
         {#each cards as card, index}
@@ -57,8 +57,9 @@
             {/if}
             <Container orientation="horizontal">
                 <Container>
-                    <Image page='main' src={card.img}/>
+                    <Image page='main' size='large' src={card.img}/>
                 </Container>
+                <Spacer axis="horizontal" size="2rem"/>
                 <Container>
                     <TextBlock 
                         title={card.text.title}

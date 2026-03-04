@@ -23,7 +23,7 @@
             icon: '',
             dropdown: [
                 {
-                title: 'Тренажер',
+                title: 'Тренажёр',
                 href: `${base}/learn_and_train/train/prewords`,
                 icon: ''
                 }
@@ -40,7 +40,7 @@
                 { title: 'Винительный падеж', href: `${base}/learn_and_train/train/tests?test_num=4`, icon: '' },
                 { title: 'Творительный падеж', href: `${base}/learn_and_train/train/tests?test_num=5`, icon: '' },
                 { title: 'Предложный падеж', href: `${base}/learn_and_train/train/tests?test_num=6`, icon: '' },
-                { title: 'Тренажер', href: `${base}/learn_and_train/train/cases`, icon: '' }
+                { title: 'Тренажёр', href: `${base}/learn_and_train/train/cases`, icon: '' }
             ]
             }
         ]

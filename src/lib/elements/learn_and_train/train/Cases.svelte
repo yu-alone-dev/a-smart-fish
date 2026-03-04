@@ -12,7 +12,7 @@
     const title = 'Интерактивный тренажёр';
     const aboutTrain = 'Потренируйся сам!';
 
-    const guideButton = { title: 'Как пользоваться тренажером', href: '/guide'};
+    const guideButton = { title: 'Как пользоваться Тренажёром', href: '/guide'};
 </script>
 
 <div class="center">
@@ -27,7 +27,7 @@
             src="{base}/pages/games/cases.html"
             title=""
             width="100%"
-            style="height: auto; min-height: 500px;"
+            style="height: auto; min-height: 675px;"
             frameborder="0"
             scrolling="no"
         ></iframe>

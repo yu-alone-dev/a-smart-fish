@@ -16,13 +16,13 @@
 <!-- Hero на весь экран -->
 <Hero 
     imageSrc="/imgs/hero-bg.png"
-    title="Умные рыбки: Учим падежи!"
+    title="Умные рыбки!<br>Учим предлоги и падежи!"
 />
 
 <!-- Остальной контент -->
 <main>
     <Spacer axis="vertical" size="3rem"/>
     <HowItWorks/>
-    <Spacer axis="vertical" size="3rem"/>
+    <Spacer axis="vertical" size="7rem"/>
     <Footer/>
 </main>

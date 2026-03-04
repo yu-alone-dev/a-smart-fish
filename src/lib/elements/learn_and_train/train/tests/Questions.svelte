@@ -29,9 +29,17 @@
         />
     </Container>
     <Container>
-        <TextBlock 
-            description={texts[test_num - 1]}
-            classListDescription='left'
-        />
+        <div class="text">
+            <TextBlock 
+                description={texts[test_num - 1]}
+                classListDescription='left'
+            />
+        </div>
     </Container>
 </Container>
+
+<style>
+.text {
+    font-size: 'xxx-large';
+}
+</style>

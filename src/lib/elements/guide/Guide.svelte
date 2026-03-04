@@ -9,7 +9,7 @@
     import {style} from '$lib/utils/texts'
 
     /* Текстовые переменные */
-    const title = "Как пользоваться тренажером";
+    const title = "Как пользоваться Тренажёром";
     const cardsFish = [
         { text: { title: 'Выбери слово',
             description: 'Чтобы приступить к работе, необходимо выбрать слово.'},
@@ -38,7 +38,7 @@
     const cardsTextSettings = `Если необходимо заменить или добавить новые слова, то нужно кликнуть на данную кнопку, откроется следующее меню.
 ${style('Кнопка "Загрузить файл"', 'b')} - загрузка файла с новыми словами в формате csv. Открывать в программе Excel. Формат не менять.
 ${style('Кнопа "Скачать файл"', 'b')} - скачивание текущих загруженных слов, где можно их убирать и добавлять новые.
-${style('Кнопка "Сбросить"', 'b')} - возвращает тренажер к первоначальному списку слов.`.split('\n')
+${style('Кнопка "Сбросить"', 'b')} - возвращает Тренажёр к первоначальному списку слов.`.split('\n')
 
 const cardsFile = [
         { text: { title: 'Файл со словами',
@@ -54,7 +54,7 @@ const cardsFile = [
             description: 'После изменения списка слов, необходимо сохранить файл.'},
             img: 'save_svg.png'},
         { text: { title: 'Загрузка новых слов',
-            description: 'Затем, сохраненный файл загрузить в тренажер. Новые слова будут добавлены автоматически.'},
+            description: 'Затем, сохраненный файл загрузить в Тренажёр. Новые слова будут добавлены автоматически.'},
             img: 'load_download.png'}
     ];
 </script>
@@ -77,7 +77,7 @@ const cardsFile = [
                     classListDescription="left"
                     colorDescription="var(--color-texts-main-dark)"
                 />
-                <Image page='guide' src={card.img} size="large"/>
+                <Image page='guide' src={card.img} size="large" containerWidth='900px'/>
             </Container>
         {/each}
         <Spacer axis="vertical" line={true} size="2rem" thickness="5px"/>
