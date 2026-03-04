@@ -1,0 +1,13 @@
+import{c as X,a as M,f as G}from"./crViG-Af.js";import{i as Y}from"./tfLoB_LM.js";import{p as Z,l as h,d as i,g as l,b as $,f as ee,a as te,m as g,e as f,c as O,r as P,t as q}from"./DqJHNSuk.js";import{p as t,i as ae}from"./D-wH7oQ7.js";import{s}from"./CmHSGijn.js";import{s as m,a as u,c as D}from"./BxWF-ktT.js";import{b as E}from"./DlYmqNQK.js";var ie=G("<a><img/></a>"),re=G("<div><img/></div>");function fe(K,e){Z(e,!1);const v=g(),d=g(),b=g(),_=g(),w=g();let x=t(e,"src",8,""),I=t(e,"alt",8,""),k=t(e,"href",8,""),y=t(e,"page",8,""),S=t(e,"loading",8,"lazy"),C=t(e,"size",8,"large"),j=t(e,"width",8,""),o=t(e,"height",8,""),F=t(e,"objectFit",8,"cover"),H=t(e,"rounded",8,!1),L=t(e,"shadow",8,!1),W=t(e,"border",8,!1),A=t(e,"classImg",8,""),B=t(e,"classLink",8,""),p=t(e,"containerWidth",8,""),z=t(e,"containerHeight",8,""),c=t(e,"align",8,"center");function N(r){return{left:"flex-start",center:"center",right:"flex-end",top:"center",bottom:"center"}[r]||"center"}function Q(r){return{top:"flex-start",center:"center",bottom:"flex-end",left:"center",right:"center"}[r]||"center"}function R(r){return{left:"left center",right:"right center",top:"center top",bottom:"center bottom",center:"center center"}[r]||"center center"}h(()=>(i(y()),i(x())),()=>{f(v,y()?`${E}/imgs/${y()}/${x()}`:`${E}/imgs/${x()}`)}),h(()=>(i(j()),i(o()),i(C())),()=>{f(d,(()=>{if(j())return{width:j(),height:o()||"auto"};switch(C()){case"small":return{width:"200px",height:o()||"auto"};case"medium":return{width:"400px",height:o()||"auto"};case"large":return{width:"600px",height:o()||"auto"};case"full":return{width:"100%",height:o()||"auto"};default:return{width:"auto",height:o()||"auto"}}})())}),h(()=>(i(H()),i(L()),i(W()),i(A())),()=>{f(b,["image",H()?"rounded":"",L()?"shadow":"",W()?"border":"",A()].filter(Boolean).join(" "))}),h(()=>(l(d),i(F()),i(c())),()=>{f(_,`
+        width: ${l(d).width};
+        height: ${l(d).height};
+        object-fit: ${F()};
+        object-position: ${R(c())};
+    `)}),h(()=>(i(p()),i(z()),i(c())),()=>{f(w,`
+        ${p()?`width: ${p()};`:""}
+        ${z()?`height: ${z()};`:""}
+        display: flex;
+        justify-content: ${N(c())};
+        align-items: ${Q(c())};
+        overflow: hidden;
+    `)}),$(),Y();var J=X(),T=ee(J);{var U=r=>{var a=ie(),n=O(a);P(a),q(()=>{s(a,"href",k()),m(a,1,`image-container image-link ${B()??""}`,"svelte-3ned59"),u(a,l(w)),s(n,"src",l(v)),s(n,"alt",I()),s(n,"loading",S()),m(n,1,D(l(b)),"svelte-3ned59"),u(n,l(_))}),M(r,a)},V=r=>{var a=re(),n=O(a);P(a),q(()=>{m(a,1,`image-container ${B()??""}`,"svelte-3ned59"),u(a,l(w)),s(n,"src",l(v)),s(n,"alt",I()),s(n,"loading",S()),m(n,1,D(l(b)),"svelte-3ned59"),u(n,l(_))}),M(r,a)};ae(T,r=>{k()?r(U):r(V,!1)})}M(K,J),te()}export{fe as I};

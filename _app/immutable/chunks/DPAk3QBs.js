@@ -1,1 +1,0 @@
-import{a as p,f as l}from"./DZgWIfRD.js";import"./_DBgldcm.js";import{t as f,c as r,r as a}from"./D2iwKSu2.js";import{s as c}from"./D5gWcMKC.js";import{p as v}from"./CFx5o16F.js";var d=l('<div class="section-header"><h2 class="title center svelte-j17nky"> </h2></div>');function T(s,o){let i=v(o,"title",8,"");var t=d(),e=r(t),m=r(e,!0);a(e),a(t),f(()=>c(m,i())),p(s,t)}export{T};
