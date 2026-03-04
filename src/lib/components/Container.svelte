@@ -22,7 +22,7 @@
 
 <style>
     .container {
-        max-width: 90rem;
+        max-width: 70rem;
         display: flex;
         width: 100%;
     }

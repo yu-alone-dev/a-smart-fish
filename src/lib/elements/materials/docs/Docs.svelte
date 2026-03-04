@@ -39,7 +39,7 @@
                             <Image
                                 page='materials/docs'
                                 src={`docs_${doc_index * doc.length  + element_index + 1}.png`}
-                                size='large'
+                                width='445px'
                             />
                         </div>
                         <Spacer axis="vertical" size="1rem"/>
