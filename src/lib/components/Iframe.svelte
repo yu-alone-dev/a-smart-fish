@@ -1,153 +1,172 @@
 <script>
   import { base } from '$app/paths';
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount } from 'svelte';
   
   export let src = '';
   export let title = '';
   export let test_num = null;
   export let minHeight = 200;
   export let maxHeight = null;
-  export let pollingInterval = 200; // мс для polling метода
   
   let iframe;
   let iframeHeight = minHeight + 'px';
-  let contentHeight = minHeight;
-  let pollingTimer;
+  let error = false;
   
-  $: iframeSrc = test_num 
-    ? `${base}/pages/tests/test_${test_num}.html`
-    : src.startsWith('http') ? src : `${base}${src}`;
+  // Правильное формирование пути
+  $: iframeSrc = (() => {
+    if (test_num) {
+      // Убеждаемся, что путь правильный
+      return `${base}/pages/tests/test_${test_num}.html`;
+    }
+    if (src) {
+      return src.startsWith('http') ? src : `${base}${src}`;
+    }
+    return '';
+  })();
   
-  // Метод 1: Получение высоты через postMessage
   function handleMessage(event) {
-    if (event.data && event.data.type === 'iframe-height') {
+    if (event.data?.type === 'iframe-height') {
       const newHeight = parseInt(event.data.height);
-      if (newHeight && newHeight > minHeight) {
-        contentHeight = newHeight;
-        updateHeight();
+      if (newHeight > 0) {
+        updateHeight(newHeight);
       }
     }
   }
   
-  // Метод 2: Прямой доступ к iframe (если same-origin)
-  function getIframeHeight() {
-    try {
-      if (!iframe || !iframe.contentDocument) return;
-      
-      const iframeDoc = iframe.contentDocument;
-      const newHeight = Math.max(
-        iframeDoc.documentElement.scrollHeight,
-        iframeDoc.body.scrollHeight
-      );
-      
-      if (newHeight && newHeight > minHeight && newHeight !== contentHeight) {
-        contentHeight = newHeight;
-        updateHeight();
-      }
-    } catch (e) {
-      // CORS ошибка - игнорируем
-    }
-  }
-  
-  // Метод 3: Polling для динамического контента
-  function startPolling() {
-    stopPolling();
+  function updateHeight(newHeight) {
+    let height = newHeight;
+    if (height < minHeight) height = minHeight;
+    if (maxHeight && height > maxHeight) height = maxHeight;
     
-    pollingTimer = setInterval(() => {
-      getIframeHeight();
-    }, pollingInterval);
-  }
-  
-  function stopPolling() {
-    if (pollingTimer) {
-      clearInterval(pollingTimer);
-      pollingTimer = null;
-    }
-  }
-  
-  function updateHeight() {
-    if (maxHeight) {
-      iframeHeight = Math.min(contentHeight, maxHeight) + 'px';
-    } else {
-      iframeHeight = contentHeight + 'px';
+    if (iframeHeight !== height + 'px') {
+      iframeHeight = height + 'px';
     }
   }
   
   function handleIframeLoad() {
-    // Пробуем получить высоту напрямую
-    getIframeHeight();
+    console.log('Iframe loaded successfully');
+    error = false;
     
-    // Начинаем polling для динамического контента
-    startPolling();
-    
-    // Отправляем запрос на получение высоты
+    // Запрашиваем высоту несколько раз
+    requestHeight();
+    setTimeout(requestHeight, 100);
+    setTimeout(requestHeight, 300);
+    setTimeout(requestHeight, 500);
+  }
+  
+  function handleIframeError() {
+    console.error('Iframe failed to load:', iframeSrc);
+    error = true;
+  }
+  
+  function requestHeight() {
+    if (!iframe?.contentWindow) return;
     try {
-      if (iframe.contentWindow) {
-        iframe.contentWindow.postMessage({ type: 'get-iframe-height' }, '*');
-      }
+      iframe.contentWindow.postMessage({ type: 'get-height' }, '*');
     } catch (e) {}
   }
   
   onMount(() => {
     window.addEventListener('message', handleMessage);
     
+    const interval = setInterval(requestHeight, 1000);
+    
     return () => {
       window.removeEventListener('message', handleMessage);
-      stopPolling();
+      clearInterval(interval);
     };
-  });
-  
-  // Обновляем высоту при изменении контента
-  afterUpdate(() => {
-    getIframeHeight();
   });
 </script>
 
-<iframe
+{#if error}
+  <div style="
+    padding: 2rem;
+    background: #fff3f3;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    color: #b71c1c;
+    text-align: center;
+    min-height: {minHeight}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  ">
+    <div>
+      <strong>Ошибка загрузки:</strong> Файл не найден<br>
+      <small style="opacity: 0.7;">{iframeSrc}</small>
+    </div>
+  </div>
+{:else}
+  <iframe
     bind:this={iframe}
     src={iframeSrc}
     {title}
     width="100%"
     style="
-        height: {iframeHeight};
-        min-height: {minHeight}px;
-        transition: height 0.2s ease;
-        border: none;
+      height: {iframeHeight};
+      min-height: {minHeight}px;
+      transition: height 0.2s ease;
+      border: none;
+      display: block;
     "
-    frameborder="0"
-    scrolling="no"
     on:load={handleIframeLoad}
-    on:error={(e) => console.error('Iframe error:', e)}
-></iframe>
+    on:error={handleIframeError}
+  ></iframe>
+{/if}
 
-<!-- Добавляем скрипт для внедрения в iframe -->
+<!-- Упрощенный скрипт для iframe -->
 <svelte:head>
   <script>
-    // Этот код будет выполняться, если iframe загружается с тем же origin
     if (window.self !== window.top) {
-      function sendCurrentHeight() {
-        const height = document.documentElement.scrollHeight;
-        window.parent.postMessage({ type: 'iframe-height', height }, '*');
+      console.log('Iframe script started');
+      
+      function getHeight() {
+        const body = document.body;
+        const html = document.documentElement;
+        return Math.max(
+          body.scrollHeight,
+          body.offsetHeight,
+          html.scrollHeight,
+          html.offsetHeight
+        );
       }
       
-      window.addEventListener('load', sendCurrentHeight);
-      window.addEventListener('resize', sendCurrentHeight);
+      function sendHeight() {
+        const height = getHeight();
+        window.parent.postMessage({ 
+          type: 'iframe-height', 
+          height: height 
+        }, '*');
+      }
       
-      const observer = new MutationObserver(sendCurrentHeight);
-      observer.observe(document.body, { 
-        childList: true, 
+      // Отправляем при загрузке
+      if (document.readyState === 'complete') {
+        sendHeight();
+      } else {
+        window.addEventListener('load', sendHeight);
+      }
+      
+      // Отправляем при изменениях
+      window.addEventListener('resize', sendHeight);
+      
+      const observer = new MutationObserver(sendHeight);
+      observer.observe(document.body, {
+        childList: true,
         subtree: true,
-        attributes: true 
+        attributes: true
       });
       
-      // Слушаем запросы от родителя
+      // Слушаем запросы
       window.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'get-iframe-height') {
-          sendCurrentHeight();
+        if (event.data?.type === 'get-height') {
+          sendHeight();
         }
       });
       
-      sendCurrentHeight();
+      // Отправляем несколько раз для надежности
+      setTimeout(sendHeight, 100);
+      setTimeout(sendHeight, 500);
+      setTimeout(sendHeight, 1000);
     }
   </script>
 </svelte:head>
