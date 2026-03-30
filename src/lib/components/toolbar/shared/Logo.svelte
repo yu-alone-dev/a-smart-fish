@@ -6,15 +6,17 @@
     $: fullLogoSrc = logoSrc?.startsWith('http') 
         ? logoSrc 
         : `${base}${logoSrc}`;
+
+					const main_page = `${base}/`;
 </script>
 
 <div class="logo">
     {#if fullLogoSrc}
-        <a href="/">
+        <a href={main_page}>
             <img src={fullLogoSrc} alt="Logo" class="logo-img rotating">
         </a>
     {:else}
-        <a href="/" class="logo-text" style="color: {color};">
+        <a href={main_page} class="logo-text" style="color: {color};">
             Логотип
         </a>
     {/if}
