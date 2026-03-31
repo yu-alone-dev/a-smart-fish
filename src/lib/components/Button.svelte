@@ -8,18 +8,19 @@
   export let url_parameter = null; // Новый проп для URL-параметров
   
   function handleClick(event) {
+    event.preventDefault();
+    
     // Проверяем, является ли ссылка Google Drive ссылкой
     const isGoogleDriveLink = href.includes('drive.google.com') || 
                                href.includes('docs.google.com') ||
                                href.startsWith('/drive/') ||
                                href.startsWith('https://drive.google.com');
     
-    // Если это Google Drive ссылка, не предотвращаем стандартное поведение
+    // Если это Google Drive ссылка, открываем в новой вкладке
     if (isGoogleDriveLink) {
-      return; // Позволяем ссылке работать как обычно
+      window.open(href, '_blank');
+      return;
     }
-    
-    event.preventDefault();
     
     // Формируем финальный URL с учетом параметров
     let finalHref = href;
