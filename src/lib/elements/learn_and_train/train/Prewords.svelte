@@ -61,7 +61,7 @@
             src="{base}/pages/games/prewords.html"
             title=""
             width="100%"
-            style="height: auto; min-height: 800px;"
+            style="height: auto; min-height: 825px;"
             frameborder="0"
             scrolling="no"
         ></iframe>
