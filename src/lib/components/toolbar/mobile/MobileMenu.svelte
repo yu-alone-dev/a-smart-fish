@@ -1,5 +1,5 @@
 <script>
-    import MobileSubmenu from './MobileSubmenu.svelte';
+    import MobileSubmenu from './MobileSubMenu.svelte';
     import SearchForm from '../shared/SearchForm.svelte';
     
     export let items = [];
